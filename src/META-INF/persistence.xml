@@ -4,14 +4,25 @@
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
+			<!-- connection config -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect" />
 			<property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:derby:tiny-embedded-erp;create=true" />
 			<property name="javax.persistence.jdbc.user" value="app" />
 			<property name="javax.persistence.jdbc.password" value="app" />
-			<!-- to hibernate create a schema -->
-			<property name="hibernate.hbm2ddl.auto" value="create" />
-			<property name="hibernate.archive.autodetection" value="class, hbm" />
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<!-- c3p0 pool configuration -->
+			<property name="connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
+			<property name="hibernate.c3p0.min_size" value="1" />
+			<property name="hibernate.c3p0.max_size" value="2" />
+			<property name="hibernate.c3p0.timeout" value="300" />
+			<property name="hibernate.c3p0.max_statements" value="10" />
+			<property name="hibernate.c3p0.idle_test_period" value="2000" />
+			<property name="c3p0.preferredTestQuery" value="select 1" />
+			<property name="hibernate.connection.release_mode" value="after_transaction" />
+			<!-- sql for debugging purpose set true -->
+			<property name="hibernate.format_sql" value="false" />
+			<property name="hibernate.show_sql" value="false" />
 		</properties>
 	</persistence-unit>
 </persistence>

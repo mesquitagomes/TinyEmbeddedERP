@@ -1,4 +1,6 @@
-package main.java.br.com.mesquitagomes.model.entity;
+package main.java.br.com.mesquitagomes.model;
+
+import java.io.Serializable;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -12,7 +14,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PHONE")
-public class Phone {
+public class Phone implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +34,22 @@ public class Phone {
 	@Basic
 	@Column(name = "number", nullable = false)
 	private Integer number;
+
+	public enum PhoneColumn {
+
+		ID("id"), PERSON("person_id"), TYPE("type"), DDI("ddi"), NUMBER("number");
+
+		String name;
+
+		PhoneColumn(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+
+			return name;
+		}
+	}
 
 	public Integer getId() {
 
@@ -79,6 +99,11 @@ public class Phone {
 	public void setNumber(Integer number) {
 
 		this.number = number;
+	}
+
+	public String toString() {
+
+		return person + " " + type + " Phone id:[" + id + "] (" + ddi + ") " + number;
 	}
 
 }
