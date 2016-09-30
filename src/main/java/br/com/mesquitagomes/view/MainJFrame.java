@@ -1,7 +1,6 @@
 package main.java.br.com.mesquitagomes.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,23 +9,21 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
 
 public class MainJFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JMenuItem mntmPerson;
-	private JLayeredPane centerLayeredPane;
+	private JTabbedPane centerTabbedPane;
 	private JSplitPane personSplitPane;
-	private JPanel personPanel;
-	private JPanel personTablePanel;
-	private JPanel orderPanel;
+	private PersonJPanel personPanel;
+	private PersonTableJPanel personTablePanel;
+	private OrderJPanel orderPanel;
 
 	/**
 	 * Create the application.
@@ -40,7 +37,8 @@ public class MainJFrame extends JFrame {
 	 */
 	private void initialize() {
 
-		setBounds(100, 100, 550, 600);
+		setTitle("TinyEmbeddedERP - Ferramentaria MG - by Marcel Mesquita Gomes");
+		setBounds(100, 100, 450, 600);
 		setMinimumSize(getSize());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -68,9 +66,7 @@ public class MainJFrame extends JFrame {
 
 						public void actionPerformed(ActionEvent e) {
 
-							setMainBorderTitle("PERSON");
-							orderPanel.setVisible(false);
-							personSplitPane.setVisible(true);
+							centerTabbedPane.setSelectedComponent(personSplitPane);
 						}
 					});
 					mainToolBar.add(mntmPerson);
@@ -81,9 +77,7 @@ public class MainJFrame extends JFrame {
 
 						public void actionPerformed(ActionEvent e) {
 
-							setMainBorderTitle("ORDER");
-							orderPanel.setVisible(true);
-							personSplitPane.setVisible(false);
+							centerTabbedPane.setSelectedComponent(orderPanel);
 						}
 					});
 					mainToolBar.add(mntmOrder);
@@ -99,35 +93,39 @@ public class MainJFrame extends JFrame {
 				northPanel.add(otherToolBar, gbc_otherToolBar);
 				{
 					JMenuItem mntmAbout = new JMenuItem("About");
-					mntmAbout.setIcon(new ImageIcon(MainJFrame.class.getResource("/resources/images/About.png")));
+					mntmAbout.setIcon(new ImageIcon(MainJFrame.class.getResource("/main/resources/images/About.png")));
 					otherToolBar.add(mntmAbout);
 				}
 				{
 					JMenuItem mntmExit = new JMenuItem("Exit");
-					mntmExit.setIcon(new ImageIcon(MainJFrame.class.getResource("/resources/images/Exit.png")));
+					mntmExit.addActionListener(new ActionListener() {
+
+						public void actionPerformed(ActionEvent e) {
+
+							System.exit(0);
+						}
+					});
+					mntmExit.setIcon(new ImageIcon(MainJFrame.class.getResource("/main/resources/images/Exit.png")));
 					otherToolBar.add(mntmExit);
 				}
 			}
 		}
 		{
-			centerLayeredPane = new JLayeredPane();
-			centerLayeredPane.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null), "Main", TitledBorder.LEADING,
-					TitledBorder.TOP, null, new Color(0, 0, 0)));
-			getContentPane().add(centerLayeredPane, BorderLayout.CENTER);
-			centerLayeredPane.setLayout(new BorderLayout(0, 0));
+			centerTabbedPane = new JTabbedPane(JTabbedPane.TOP);
+			getContentPane().add(centerTabbedPane, BorderLayout.CENTER);
+			personSplitPane = new JSplitPane();
+			centerTabbedPane.addTab("Person", null, personSplitPane, null);
+			personSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			{
-				personSplitPane = new JSplitPane();
-				personSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-				centerLayeredPane.add(personSplitPane);
-				{
-					personPanel = new PersonJPanel();
-					personSplitPane.setTopComponent(personPanel);
+				personPanel = new PersonJPanel();
+				personSplitPane.setTopComponent(personPanel);
 
-					personTablePanel = new PersonTableJPanel();
-					personSplitPane.setBottomComponent(personTablePanel);
-				}
+				personTablePanel = new PersonTableJPanel();
+				personSplitPane.setBottomComponent(personTablePanel);
+			}
+			{
 				orderPanel = new OrderJPanel();
-				centerLayeredPane.add(orderPanel, BorderLayout.NORTH);
+				centerTabbedPane.addTab("Order", null, orderPanel, null);
 			}
 		}
 
@@ -136,13 +134,5 @@ public class MainJFrame extends JFrame {
 	}
 
 	protected void initDataBindings() {}
-
-	@SuppressWarnings("unused")
-	private void setMainBorderTitle(String title) {
-
-		TitledBorder titledBorder = (TitledBorder) centerLayeredPane.getBorder();
-		titledBorder.setTitle(title);
-		centerLayeredPane.repaint();
-	}
 
 }

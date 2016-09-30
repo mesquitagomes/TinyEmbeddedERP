@@ -3,6 +3,9 @@ package main.java.br.com.mesquitagomes.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -10,17 +13,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.ObjectProperty;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.SwingBindings;
+
+import main.java.br.com.mesquitagomes.model.Person;
+import main.java.br.com.mesquitagomes.model.Persons;
+
 public class PersonTableJPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private Persons persons = new Persons();
 	private JTextField textField;
 	private JTable personsTable;
 	private JButton btnNewOrder;
 
-	/**
-	 * Create the panel.
-	 */
 	public PersonTableJPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0 };
@@ -39,6 +49,14 @@ public class PersonTableJPanel extends JPanel {
 		textField.setColumns(10);
 
 		JButton btnFind = new JButton("Find");
+		btnFind.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+
+				// TODO
+				textField.getText();
+			}
+		});
 		GridBagConstraints gbc_btnFind = new GridBagConstraints();
 		gbc_btnFind.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnFind.insets = new Insets(0, 0, 5, 5);
@@ -67,6 +85,41 @@ public class PersonTableJPanel extends JPanel {
 			personsTable = new JTable();
 			scrollPane.setViewportView(personsTable);
 		}
+
+		initDataBindings();
 	}
 
+	public void addPerson(Person person) {
+
+		persons.addPerson(person);
+	}
+
+	public void removePerson(Person person) {
+
+		persons.removePerson(person);
+	}
+
+	protected void initDataBindings() {
+
+		BeanProperty<Persons, List<Person>> personsBeanProperty = BeanProperty.create("persons");
+		JTableBinding<Person, Persons, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, persons,
+				personsBeanProperty, personsTable);
+		//
+		BeanProperty<Person, Integer> personBeanProperty = BeanProperty.create("id");
+		jTableBinding.addColumnBinding(personBeanProperty).setColumnName("Id");
+		//
+		BeanProperty<Person, String> personBeanProperty_1 = BeanProperty.create("name");
+		jTableBinding.addColumnBinding(personBeanProperty_1).setColumnName("Name");
+		//
+		BeanProperty<Person, Integer> personBeanProperty_2 = BeanProperty.create("CNPJ");
+		jTableBinding.addColumnBinding(personBeanProperty_2).setColumnName("CNPJ");
+		//
+		ObjectProperty<Person> personObjectProperty = ObjectProperty.create();
+		jTableBinding.addColumnBinding(personObjectProperty).setColumnName("IE");
+		//
+		ObjectProperty<Person> personObjectProperty_1 = ObjectProperty.create();
+		jTableBinding.addColumnBinding(personObjectProperty_1).setColumnName("CPF");
+		//
+		jTableBinding.bind();
+	}
 }

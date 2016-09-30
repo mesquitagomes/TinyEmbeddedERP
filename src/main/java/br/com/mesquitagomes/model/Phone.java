@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "PHONE")
-public class Phone implements Serializable {
+public class Phone extends AbstractModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,13 +35,13 @@ public class Phone implements Serializable {
 	@Column(name = "number", nullable = false)
 	private Integer number;
 
-	public enum PhoneColumn {
+	public enum PhoneColumns {
 
 		ID("id"), PERSON("person_id"), TYPE("type"), DDI("ddi"), NUMBER("number");
 
-		String name;
+		private String name;
 
-		PhoneColumn(String name) {
+		PhoneColumns(String name) {
 			this.name = name;
 		}
 
@@ -58,7 +58,9 @@ public class Phone implements Serializable {
 
 	public void setId(Integer id) {
 
+		Integer oldValue = this.id;
 		this.id = id;
+		firePropertyChange(PhoneColumns.ID.getName(), oldValue, this.id);
 	}
 
 	public Person getPerson() {
@@ -68,7 +70,9 @@ public class Phone implements Serializable {
 
 	public void setPerson(Person person) {
 
+		Person oldValue = this.person;
 		this.person = person;
+		firePropertyChange(PhoneColumns.PERSON.getName(), oldValue, this.person);
 	}
 
 	public String getType() {
@@ -78,7 +82,9 @@ public class Phone implements Serializable {
 
 	public void setType(String type) {
 
+		String oldValue = this.type;
 		this.type = type;
+		firePropertyChange(PhoneColumns.TYPE.getName(), oldValue, this.type);
 	}
 
 	public Integer getDdi() {
@@ -88,7 +94,9 @@ public class Phone implements Serializable {
 
 	public void setDdi(Integer ddi) {
 
+		Integer oldValue = this.ddi;
 		this.ddi = ddi;
+		firePropertyChange(PhoneColumns.DDI.getName(), oldValue, this.ddi);
 	}
 
 	public Integer getNumber() {
@@ -98,12 +106,14 @@ public class Phone implements Serializable {
 
 	public void setNumber(Integer number) {
 
+		Integer oldValue = this.number;
 		this.number = number;
+		firePropertyChange(PhoneColumns.NUMBER.getName(), oldValue, this.number);
 	}
 
 	public String toString() {
 
-		return person + " " + type + " Phone id:[" + id + "] (" + ddi + ") " + number;
+		return type + " Phone id:[" + id + "] (" + ddi + ") " + number;
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 
 import main.java.br.com.mesquitagomes.model.Person;
 import main.java.br.com.mesquitagomes.model.Phone;
-import main.java.br.com.mesquitagomes.model.Person.PersonColumn;
+import main.java.br.com.mesquitagomes.model.Person.PersonColumns;
 import main.java.br.com.mesquitagomes.persistence.AbstractPersistence;
 import main.java.br.com.mesquitagomes.persistence.PersistenceFactory;
 
@@ -30,7 +30,7 @@ public class PersistenceTest {
 
 		AbstractPersistence<Person> persistence = persistenceFactory.getPersistence(Person.class);
 
-		String column = PersonColumn.NAME.getName();
+		String column = PersonColumns.NAME.getName();
 
 		List<Person> person = persistence.getByColumn(column, name);
 

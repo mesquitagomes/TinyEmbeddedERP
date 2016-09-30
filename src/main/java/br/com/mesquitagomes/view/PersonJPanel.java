@@ -22,6 +22,7 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.beansbinding.ObjectProperty;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
@@ -57,6 +58,8 @@ public class PersonJPanel extends JPanel {
 	private JPanel phonesPanel;
 	private JPanel adressesPanel;
 	private JButton btnNewPerson;
+	private JLabel emailLable;
+	private JFormattedTextField emailFormattedTextField;
 
 	public PersonJPanel(Person newPerson) {
 		this();
@@ -65,7 +68,7 @@ public class PersonJPanel extends JPanel {
 
 	public PersonJPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 150, 0, 150, 0 };
+		gridBagLayout.columnWidths = new int[] { 50, 0, 50, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
@@ -100,12 +103,27 @@ public class PersonJPanel extends JPanel {
 
 		nameJTextField = new JTextField();
 		GridBagConstraints componentGbc_1 = new GridBagConstraints();
-		componentGbc_1.gridwidth = 3;
-		componentGbc_1.insets = new Insets(5, 0, 5, 0);
-		componentGbc_1.fill = GridBagConstraints.BOTH;
+		componentGbc_1.insets = new Insets(5, 0, 5, 5);
+		componentGbc_1.fill = GridBagConstraints.HORIZONTAL;
 		componentGbc_1.gridx = 1;
 		componentGbc_1.gridy = 1;
 		add(nameJTextField, componentGbc_1);
+
+		emailLable = new JLabel("Email:");
+		GridBagConstraints gbc_emailLable = new GridBagConstraints();
+		gbc_emailLable.anchor = GridBagConstraints.EAST;
+		gbc_emailLable.insets = new Insets(0, 0, 5, 5);
+		gbc_emailLable.gridx = 2;
+		gbc_emailLable.gridy = 1;
+		add(emailLable, gbc_emailLable);
+
+		emailFormattedTextField = new JFormattedTextField();
+		GridBagConstraints gbc_emailFormattedTextField = new GridBagConstraints();
+		gbc_emailFormattedTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_emailFormattedTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_emailFormattedTextField.gridx = 3;
+		gbc_emailFormattedTextField.gridy = 1;
+		add(emailFormattedTextField, gbc_emailFormattedTextField);
 
 		JLabel CNPJLabel = new JLabel("CNPJ:");
 		GridBagConstraints labelGbc_2 = new GridBagConstraints();
@@ -268,8 +286,9 @@ public class PersonJPanel extends JPanel {
 		FlowLayout flowLayout = (FlowLayout) personButtonPanel.getLayout();
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		GridBagConstraints gbc_personButtonPanel = new GridBagConstraints();
+		gbc_personButtonPanel.gridwidth = 4;
 		gbc_personButtonPanel.fill = GridBagConstraints.BOTH;
-		gbc_personButtonPanel.gridx = 3;
+		gbc_personButtonPanel.gridx = 0;
 		gbc_personButtonPanel.gridy = 6;
 		add(personButtonPanel, gbc_personButtonPanel);
 		{
@@ -284,6 +303,13 @@ public class PersonJPanel extends JPanel {
 				});
 
 				btnNewPerson = new JButton("New");
+				btnNewPerson.addActionListener(new ActionListener() {
+
+					public void actionPerformed(ActionEvent e) {
+
+						// TODO
+					}
+				});
 				personButtonPanel.add(btnNewPerson);
 				personButtonPanel.add(btnSavePerson);
 			}
@@ -334,6 +360,12 @@ public class PersonJPanel extends JPanel {
 		AutoBinding<Person, String, JTextField, String> nameAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, person,
 				nameProperty, nameJTextField, nameTextProperty);
 		nameAutoBinding.bind();
+		//
+		BeanProperty<Person, String> personBeanProperty_2 = BeanProperty.create("email");
+		ObjectProperty<JFormattedTextField> jFormattedTextFieldObjectProperty = ObjectProperty.create();
+		AutoBinding<Person, String, JFormattedTextField, JFormattedTextField> autoBinding = Bindings.createAutoBinding(
+				UpdateStrategy.READ_WRITE, person, personBeanProperty_2, emailFormattedTextField, jFormattedTextFieldObjectProperty);
+		autoBinding.bind();
 		//
 		BeanProperty<Person, Integer> cNPJProperty = BeanProperty.create("CNPJ");
 		BeanProperty<JFormattedTextField, String> cNPJTextProperty = BeanProperty.create("text");
@@ -408,6 +440,7 @@ public class PersonJPanel extends JPanel {
 		//
 		bindingGroup.addBinding(idAutoBinding);
 		bindingGroup.addBinding(nameAutoBinding);
+		bindingGroup.addBinding(autoBinding);
 		bindingGroup.addBinding(cNPJautoBinding);
 		bindingGroup.addBinding(iEAutoBinding);
 		bindingGroup.addBinding(cPFPAutoBinding);

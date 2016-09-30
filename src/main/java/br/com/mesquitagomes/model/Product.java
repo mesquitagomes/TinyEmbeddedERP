@@ -2,13 +2,29 @@ package main.java.br.com.mesquitagomes.model;
 
 import java.io.Serializable;
 
-public class Product implements Serializable {
+public class Product extends AbstractModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private String description;
 	private Integer quantity;
 	private Float price;
+
+	public enum ProductColumns {
+
+		DESCRIPTION("description"), QUANTITY("quantity"), PRICE("price");
+
+		private String name;
+
+		ProductColumns(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+
+			return name;
+		}
+	}
 
 	public String getDescription() {
 
@@ -17,7 +33,9 @@ public class Product implements Serializable {
 
 	public void setDescription(String description) {
 
+		String oldValue = this.description;
 		this.description = description;
+		firePropertyChange(ProductColumns.DESCRIPTION.getName(), oldValue, this.description);
 	}
 
 	public Integer getQuantity() {
@@ -27,7 +45,9 @@ public class Product implements Serializable {
 
 	public void setQuantity(Integer quantity) {
 
+		Integer oldValue = this.quantity;
 		this.quantity = quantity;
+		firePropertyChange(ProductColumns.QUANTITY.getName(), oldValue, this.quantity);
 	}
 
 	public Float getPrice() {
@@ -37,7 +57,9 @@ public class Product implements Serializable {
 
 	public void setPrice(Float price) {
 
+		Float oldValue = this.price;
 		this.price = price;
+		firePropertyChange(ProductColumns.PRICE.getName(), oldValue, this.price);
 	}
 
 }

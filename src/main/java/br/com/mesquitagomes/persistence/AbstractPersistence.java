@@ -5,6 +5,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+/**
+ * TODO make a unique and generic class for persistence.
+ * 
+ * @author mesquitagomes
+ *
+ * @param <T>
+ */
 public abstract class AbstractPersistence<T> {
 
 	protected EntityManager entityManager;

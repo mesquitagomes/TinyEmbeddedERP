@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ADRESS")
-public class Adress implements Serializable {
+public class Adress extends AbstractModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,14 +47,14 @@ public class Adress implements Serializable {
 	@Column(name = "country", length = 100, nullable = false)
 	private String country;
 
-	public enum AdressColumn {
+	public enum AdressColumns {
 
 		ID("id"), PERSON("person_id"), ZIPCODE("zipcode"), ADRESS("adress"), NUMBER("number"), COMPLEMENT("complement"), CITY(
 				"city"), REGION("region"), COUNTRY("country");
 
-		String name;
+		private String name;
 
-		AdressColumn(String name) {
+		AdressColumns(String name) {
 			this.name = name;
 		}
 
@@ -71,7 +71,9 @@ public class Adress implements Serializable {
 
 	public void setId(Integer id) {
 
+		Integer oldValue = this.id;
 		this.id = id;
+		firePropertyChange(AdressColumns.ID.getName(), oldValue, this.id);
 	}
 
 	public Person getPerson() {
@@ -81,7 +83,9 @@ public class Adress implements Serializable {
 
 	public void setPerson(Person person) {
 
+		Person oldValue = this.person;
 		this.person = person;
+		firePropertyChange(AdressColumns.PERSON.getName(), oldValue, this.person);
 	}
 
 	public Integer getZipcode() {
@@ -91,7 +95,9 @@ public class Adress implements Serializable {
 
 	public void setZipcode(Integer zipcode) {
 
+		Integer oldValue = this.zipcode;
 		this.zipcode = zipcode;
+		firePropertyChange(AdressColumns.ZIPCODE.getName(), oldValue, this.zipcode);
 	}
 
 	public String getAdress() {
@@ -101,7 +107,9 @@ public class Adress implements Serializable {
 
 	public void setAdress(String adress) {
 
+		String oldValue = this.adress;
 		this.adress = adress;
+		firePropertyChange(AdressColumns.ADRESS.getName(), oldValue, this.adress);
 	}
 
 	public Integer getNumber() {
@@ -112,6 +120,9 @@ public class Adress implements Serializable {
 	public void setNumber(Integer number) {
 
 		this.number = number;
+		Integer oldValue = this.number;
+		this.number = number;
+		firePropertyChange(AdressColumns.NUMBER.getName(), oldValue, this.number);
 	}
 
 	public String getComplement() {
@@ -121,7 +132,9 @@ public class Adress implements Serializable {
 
 	public void setComplement(String complement) {
 
+		String oldValue = this.complement;
 		this.complement = complement;
+		firePropertyChange(AdressColumns.COMPLEMENT.getName(), oldValue, this.complement);
 	}
 
 	public String getCity() {
@@ -131,7 +144,9 @@ public class Adress implements Serializable {
 
 	public void setCity(String city) {
 
+		String oldValue = this.city;
 		this.city = city;
+		firePropertyChange(AdressColumns.CITY.getName(), oldValue, this.city);
 	}
 
 	public String getRegion() {
@@ -141,7 +156,9 @@ public class Adress implements Serializable {
 
 	public void setRegion(String region) {
 
+		String oldValue = this.region;
 		this.region = region;
+		firePropertyChange(AdressColumns.REGION.getName(), oldValue, this.region);
 	}
 
 	public String getCountry() {
@@ -151,7 +168,9 @@ public class Adress implements Serializable {
 
 	public void setCountry(String country) {
 
+		String oldValue = this.country;
 		this.country = country;
+		firePropertyChange(AdressColumns.COUNTRY.getName(), oldValue, this.country);
 	}
 
 }
