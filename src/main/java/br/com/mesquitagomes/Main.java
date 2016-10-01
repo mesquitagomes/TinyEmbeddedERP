@@ -2,6 +2,7 @@ package main.java.br.com.mesquitagomes;
 
 import java.awt.EventQueue;
 
+import main.java.br.com.mesquitagomes.persistence.PersistenceFactory;
 import main.java.br.com.mesquitagomes.view.MainJFrame;
 
 public class Main {
@@ -12,10 +13,14 @@ public class Main {
 
 			public void run() {
 
+				PersistenceFactory persistenceFactory = PersistenceFactory.getInstance();
+
 				try {
-					MainJFrame window = new MainJFrame();
+
+					MainJFrame window = new MainJFrame(persistenceFactory);
 					window.setLocationRelativeTo(null);
 					window.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

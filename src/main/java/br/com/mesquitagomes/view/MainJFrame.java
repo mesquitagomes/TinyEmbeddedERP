@@ -15,9 +15,13 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 
+import main.java.br.com.mesquitagomes.persistence.PersistenceFactory;
+
 public class MainJFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+
+	private PersistenceFactory persistenceFactory;
 	private JMenuItem mntmPerson;
 	private JTabbedPane centerTabbedPane;
 	private JSplitPane personSplitPane;
@@ -28,7 +32,9 @@ public class MainJFrame extends JFrame {
 	/**
 	 * Create the application.
 	 */
-	public MainJFrame() {
+	public MainJFrame(PersistenceFactory persistenceFactory) {
+
+		this.persistenceFactory = persistenceFactory;
 		initialize();
 	}
 
@@ -41,6 +47,13 @@ public class MainJFrame extends JFrame {
 		setBounds(100, 100, 450, 600);
 		setMinimumSize(getSize());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+
+			public void windowClosing(java.awt.event.WindowEvent e) {
+
+				exitProcedure();
+			}
+		});
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		{
 			JPanel northPanel = new JPanel();
@@ -102,7 +115,7 @@ public class MainJFrame extends JFrame {
 
 						public void actionPerformed(ActionEvent e) {
 
-							System.exit(0);
+							exitProcedure();
 						}
 					});
 					mntmExit.setIcon(new ImageIcon(MainJFrame.class.getResource("/main/resources/images/Exit.png")));
@@ -117,10 +130,10 @@ public class MainJFrame extends JFrame {
 			centerTabbedPane.addTab("Person", null, personSplitPane, null);
 			personSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			{
-				personPanel = new PersonJPanel();
+				personPanel = new PersonJPanel(persistenceFactory);
 				personSplitPane.setTopComponent(personPanel);
 
-				personTablePanel = new PersonTableJPanel();
+				personTablePanel = new PersonTableJPanel(persistenceFactory);
 				personSplitPane.setBottomComponent(personTablePanel);
 			}
 			{
@@ -131,6 +144,13 @@ public class MainJFrame extends JFrame {
 
 		initDataBindings();
 
+	}
+
+	public void exitProcedure() {
+
+		persistenceFactory.close();
+		dispose();
+		System.exit(0);
 	}
 
 	protected void initDataBindings() {}

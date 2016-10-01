@@ -13,13 +13,19 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.SwingBindings;
+
 import main.java.br.com.mesquitagomes.model.Product;
+import main.java.br.com.mesquitagomes.model.Products;
 
 public class OrderJPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<Product> products;
+	private Products products = new Products();
 	private JTextField clientTextField;
 	private JTextField docsTextField;
 	private JTable productsTable;
@@ -128,5 +134,21 @@ public class OrderJPanel extends JPanel {
 
 	}
 
-	protected void initDataBindings() {}
+	protected void initDataBindings() {
+
+		BeanProperty<Products, List<Product>> productsBeanProperty = BeanProperty.create("products");
+		JTableBinding<Product, Products, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ_WRITE, products,
+				productsBeanProperty, productsTable);
+		//
+		BeanProperty<Product, Integer> productBeanProperty = BeanProperty.create("quantity");
+		jTableBinding.addColumnBinding(productBeanProperty).setColumnName("Quantity");
+		//
+		BeanProperty<Product, String> productBeanProperty_1 = BeanProperty.create("description");
+		jTableBinding.addColumnBinding(productBeanProperty_1).setColumnName("Description");
+		//
+		BeanProperty<Product, Float> productBeanProperty_2 = BeanProperty.create("price");
+		jTableBinding.addColumnBinding(productBeanProperty_2).setColumnName("Price");
+		//
+		jTableBinding.bind();
+	}
 }

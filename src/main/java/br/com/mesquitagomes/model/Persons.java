@@ -1,14 +1,11 @@
 package main.java.br.com.mesquitagomes.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Persons extends AbstractModel implements Serializable {
+public class Persons extends AbstractModel {
 
-	private static final long serialVersionUID = 1L;
-
-	private List<Person> persons = new ArrayList<Person>();
+	protected List<Person> persons = new ArrayList<Person>();
 
 	public List<Person> getPersons() {
 
@@ -19,7 +16,7 @@ public class Persons extends AbstractModel implements Serializable {
 
 		List<Person> oldValue = this.persons;
 		this.persons = new ArrayList<Person>(persons);
-		firePropertyChange("persons", oldValue, this.persons);
+		firePropertyChange(getPropertyChangeName(), oldValue, this.persons);
 	}
 
 	public int getPersonsCount() {
@@ -32,7 +29,7 @@ public class Persons extends AbstractModel implements Serializable {
 		List<Person> oldValue = persons;
 		persons = new ArrayList<Person>(persons);
 		persons.add(person);
-		firePropertyChange("persons", oldValue, persons);
+		firePropertyChange(getPropertyChangeName(), oldValue, persons);
 	}
 
 	public void removePerson(Person person) {
@@ -40,7 +37,12 @@ public class Persons extends AbstractModel implements Serializable {
 		List<Person> oldValue = persons;
 		persons = new ArrayList<Person>(persons);
 		persons.remove(person);
-		firePropertyChange("persons", oldValue, persons);
+		firePropertyChange(getPropertyChangeName(), oldValue, persons);
+	}
+
+	public String getPropertyChangeName() {
+
+		return "persons";
 	}
 
 }

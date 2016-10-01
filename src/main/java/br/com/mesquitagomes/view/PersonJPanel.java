@@ -22,18 +22,21 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
-import org.jdesktop.beansbinding.ObjectProperty;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
 import main.java.br.com.mesquitagomes.model.Adress;
 import main.java.br.com.mesquitagomes.model.Person;
 import main.java.br.com.mesquitagomes.model.Phone;
+import main.java.br.com.mesquitagomes.persistence.PersistenceFactory;
+import main.java.br.com.mesquitagomes.persistence.PersonPersistence;
 
 public class PersonJPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private PersistenceFactory persistenceFactory;
+	private PersonPersistence personPersistence;
 	private BindingGroup m_bindingGroup;
 	private Person person = new Person();
 	private JTextField idJTextField;
@@ -59,14 +62,23 @@ public class PersonJPanel extends JPanel {
 	private JPanel adressesPanel;
 	private JButton btnNewPerson;
 	private JLabel emailLable;
-	private JFormattedTextField emailFormattedTextField;
+	private JFormattedTextField emailJFormattedTextField;
 
-	public PersonJPanel(Person newPerson) {
-		this();
+	public PersonJPanel(PersistenceFactory persistenceFactory, Person newPerson) {
+
+		this(persistenceFactory);
 		setPerson(newPerson);
 	}
 
+	public PersonJPanel(PersistenceFactory persistenceFactory) {
+
+		this();
+		this.persistenceFactory = persistenceFactory;
+		personPersistence = this.persistenceFactory.getPersonPersistence();
+	}
+
 	public PersonJPanel() {
+
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 50, 0, 50, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -117,13 +129,13 @@ public class PersonJPanel extends JPanel {
 		gbc_emailLable.gridy = 1;
 		add(emailLable, gbc_emailLable);
 
-		emailFormattedTextField = new JFormattedTextField();
-		GridBagConstraints gbc_emailFormattedTextField = new GridBagConstraints();
-		gbc_emailFormattedTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_emailFormattedTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_emailFormattedTextField.gridx = 3;
-		gbc_emailFormattedTextField.gridy = 1;
-		add(emailFormattedTextField, gbc_emailFormattedTextField);
+		emailJFormattedTextField = new JFormattedTextField();
+		GridBagConstraints gbc_emailJFormattedTextField = new GridBagConstraints();
+		gbc_emailJFormattedTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_emailJFormattedTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_emailJFormattedTextField.gridx = 3;
+		gbc_emailJFormattedTextField.gridy = 1;
+		add(emailJFormattedTextField, gbc_emailJFormattedTextField);
 
 		JLabel CNPJLabel = new JLabel("CNPJ:");
 		GridBagConstraints labelGbc_2 = new GridBagConstraints();
@@ -292,29 +304,40 @@ public class PersonJPanel extends JPanel {
 		gbc_personButtonPanel.gridy = 6;
 		add(personButtonPanel, gbc_personButtonPanel);
 		{
-			{
-				btnSavePerson = new JButton("Save");
-				btnSavePerson.addActionListener(new ActionListener() {
 
-					public void actionPerformed(ActionEvent e) {
+			btnNewPerson = new JButton("New");
+			btnNewPerson.addActionListener(new ActionListener() {
 
-						JOptionPane.showMessageDialog(PersonJPanel.this, person.toString());
-					}
-				});
+				public void actionPerformed(ActionEvent e) {
 
-				btnNewPerson = new JButton("New");
-				btnNewPerson.addActionListener(new ActionListener() {
+					Person newPerson = new Person();
+					newPerson.setName("??????");
+					setPerson(newPerson);
+				}
+			});
+			personButtonPanel.add(btnNewPerson);
 
-					public void actionPerformed(ActionEvent e) {
+			btnSavePerson = new JButton("Save");
+			btnSavePerson.addActionListener(new ActionListener() {
 
-						// TODO
-					}
-				});
-				personButtonPanel.add(btnNewPerson);
-				personButtonPanel.add(btnSavePerson);
-			}
+				public void actionPerformed(ActionEvent e) {
+
+					if (person.getId() == null) personPersistence.persist(person);
+					else person = personPersistence.merge(person);
+					JOptionPane.showMessageDialog(getParent(), "Person saved.\n" + person);
+					setPerson(person);
+				}
+			});
+			personButtonPanel.add(btnSavePerson);
 
 			btnDeletePerson = new JButton("Delete");
+			btnDeletePerson.addActionListener(new ActionListener() {
+
+				public void actionPerformed(ActionEvent e) {
+
+					personPersistence.remove(person);
+				}
+			});
 			personButtonPanel.add(btnDeletePerson);
 		}
 
@@ -362,9 +385,9 @@ public class PersonJPanel extends JPanel {
 		nameAutoBinding.bind();
 		//
 		BeanProperty<Person, String> personBeanProperty_2 = BeanProperty.create("email");
-		ObjectProperty<JFormattedTextField> jFormattedTextFieldObjectProperty = ObjectProperty.create();
-		AutoBinding<Person, String, JFormattedTextField, JFormattedTextField> autoBinding = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, person, personBeanProperty_2, emailFormattedTextField, jFormattedTextFieldObjectProperty);
+		BeanProperty<JFormattedTextField, String> jFormattedTextFieldBeanProperty = BeanProperty.create("text");
+		AutoBinding<Person, String, JFormattedTextField, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, person,
+				personBeanProperty_2, emailJFormattedTextField, jFormattedTextFieldBeanProperty);
 		autoBinding.bind();
 		//
 		BeanProperty<Person, Integer> cNPJProperty = BeanProperty.create("CNPJ");

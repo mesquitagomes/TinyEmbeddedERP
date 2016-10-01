@@ -21,6 +21,12 @@ public abstract class AbstractPersistence<T> {
 		this.entityManager = entityManager;
 	}
 
+	public void persistMerge(T entity) {
+
+		// TODO verify if the column entity @Id is null to deicide what method to execute, persist or merge.
+		System.out.println("The method AbstractPersistence<T>.persistMerge is not implemented yet!");
+	}
+
 	public void persist(T entity) {
 
 		EntityTransaction transaction = null;
@@ -36,19 +42,21 @@ public abstract class AbstractPersistence<T> {
 		}
 	}
 
-	public void merge(T entity) {
+	public T merge(T entity) {
 
 		EntityTransaction transaction = null;
 
 		try {
 			transaction = entityManager.getTransaction();
 			transaction.begin();
-			entityManager.merge(entity);
+			T newEntity = entityManager.merge(entity);
 			transaction.commit();
+			return newEntity;
 		} catch (Exception e) {
 			System.err.println("Erro ao atualizar o objeto: \n" + entity + ".\n" + e);
 			if (transaction != null) transaction.rollback();
 		}
+		return entity;
 	}
 
 	public void remove(T entity) {

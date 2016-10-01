@@ -15,23 +15,36 @@ import javax.swing.JTextField;
 
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.beansbinding.ObjectProperty;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
 import main.java.br.com.mesquitagomes.model.Person;
 import main.java.br.com.mesquitagomes.model.Persons;
+import main.java.br.com.mesquitagomes.persistence.PersistenceFactory;
+import main.java.br.com.mesquitagomes.persistence.PersonPersistence;
 
 public class PersonTableJPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	private PersistenceFactory persistenceFactory;
+	private PersonPersistence personPersistence;
 	private Persons persons = new Persons();
 	private JTextField textField;
 	private JTable personsTable;
 	private JButton btnNewOrder;
 
+	public PersonTableJPanel(PersistenceFactory persistenceFactory) {
+
+		this();
+		this.persistenceFactory = persistenceFactory;
+		personPersistence = this.persistenceFactory.getPersonPersistence();
+		persons.setPersons(personPersistence.getAll());
+		// initDataBindings();
+	}
+
 	public PersonTableJPanel() {
+
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 10, 10, 10, 0 };
@@ -83,6 +96,7 @@ public class PersonTableJPanel extends JPanel {
 		add(scrollPane, gbc_scrollPane);
 		{
 			personsTable = new JTable();
+			// personsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 			scrollPane.setViewportView(personsTable);
 		}
 
@@ -111,14 +125,20 @@ public class PersonTableJPanel extends JPanel {
 		BeanProperty<Person, String> personBeanProperty_1 = BeanProperty.create("name");
 		jTableBinding.addColumnBinding(personBeanProperty_1).setColumnName("Name");
 		//
-		BeanProperty<Person, Integer> personBeanProperty_2 = BeanProperty.create("CNPJ");
-		jTableBinding.addColumnBinding(personBeanProperty_2).setColumnName("CNPJ");
+		BeanProperty<Person, String> personBeanProperty_2 = BeanProperty.create("email");
+		jTableBinding.addColumnBinding(personBeanProperty_2).setColumnName("Email");
 		//
-		ObjectProperty<Person> personObjectProperty = ObjectProperty.create();
-		jTableBinding.addColumnBinding(personObjectProperty).setColumnName("IE");
+		BeanProperty<Person, Integer> personBeanProperty_3 = BeanProperty.create("CNPJ");
+		jTableBinding.addColumnBinding(personBeanProperty_3).setColumnName("CNPJ");
 		//
-		ObjectProperty<Person> personObjectProperty_1 = ObjectProperty.create();
-		jTableBinding.addColumnBinding(personObjectProperty_1).setColumnName("CPF");
+		BeanProperty<Person, Integer> personBeanProperty_4 = BeanProperty.create("IE");
+		jTableBinding.addColumnBinding(personBeanProperty_4).setColumnName("IE");
+		//
+		BeanProperty<Person, Integer> personBeanProperty_5 = BeanProperty.create("CPF");
+		jTableBinding.addColumnBinding(personBeanProperty_5).setColumnName("CPF");
+		//
+		BeanProperty<Person, String> personBeanProperty_6 = BeanProperty.create("RG");
+		jTableBinding.addColumnBinding(personBeanProperty_6).setColumnName("RG");
 		//
 		jTableBinding.bind();
 	}

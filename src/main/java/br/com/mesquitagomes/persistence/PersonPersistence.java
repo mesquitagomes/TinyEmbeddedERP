@@ -22,12 +22,10 @@ public class PersonPersistence extends AbstractPersistence<Person> {
 		return entityManager.find(Person.class, entity.getId());
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Person> getAll() {
 
-		Query q = entityManager.createNamedQuery("GetAllPersons", Person.class);
-		return q.getResultList();
+		return getByQuery(getSELECT());
 	}
 
 	@SuppressWarnings("unchecked")

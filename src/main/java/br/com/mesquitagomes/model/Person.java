@@ -27,15 +27,15 @@ public class Person extends AbstractModel implements Serializable {
 	@Column(name = "name", length = 200, nullable = false)
 	private String name;
 	@Basic
-	@Column(name = "cpf", unique = true)
+	@Column(name = "cpf")
 	private Integer CPF;
-	@Column(name = "rg", length = 15, unique = true)
+	@Column(name = "rg", length = 15)
 	private String RG;
 	@Basic
-	@Column(name = "cnpj", unique = true)
+	@Column(name = "cnpj")
 	private Integer CNPJ;
 	@Basic
-	@Column(name = "ie", unique = true)
+	@Column(name = "ie")
 	private Integer IE;
 	@Basic
 	@Column(name = "email")
