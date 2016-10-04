@@ -69,12 +69,12 @@ public abstract class AbstractPersistence<T> {
 			entityManager.remove(entity);
 			transaction.commit();
 		} catch (Exception e) {
-			System.err.println("Erro ao atualizar o objeto: \n" + entity + ".\n" + e);
+			System.err.println("Erro ao atualizar o objeto: \n" + entity + ".\n" + e.getMessage() + "\n\n" + e.getStackTrace());
 			if (transaction != null) transaction.rollback();
 		}
 	}
 
-	abstract public T getByPK(T entity);
+	abstract public T getById(Integer id);
 
 	abstract public List<T> getAll();
 

@@ -17,9 +17,9 @@ public class PhonePersistence extends AbstractPersistence<Phone> {
 	}
 
 	@Override
-	public Phone getByPK(Phone entity) {
+	public Phone getById(Integer id) {
 
-		return entityManager.find(Phone.class, entity.getId());
+		return entityManager.find(Phone.class, id);
 	}
 
 	@SuppressWarnings("unchecked")

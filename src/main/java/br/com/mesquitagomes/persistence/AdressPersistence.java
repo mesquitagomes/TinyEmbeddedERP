@@ -17,9 +17,9 @@ public class AdressPersistence extends AbstractPersistence<Adress> {
 	}
 
 	@Override
-	public Adress getByPK(Adress entity) {
+	public Adress getById(Integer id) {
 
-		return entityManager.find(Adress.class, entity.getId());
+		return entityManager.find(Adress.class, id);
 	}
 
 	@SuppressWarnings("unchecked")

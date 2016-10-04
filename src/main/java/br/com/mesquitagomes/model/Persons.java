@@ -40,6 +40,15 @@ public class Persons extends AbstractModel {
 		firePropertyChange(getPropertyChangeName(), oldValue, persons);
 	}
 
+	public Person getPerson(int index) {
+
+		Person person = null;
+
+		if (index >= 0 && index < persons.size()) person = persons.get(index);
+
+		return person;
+	}
+
 	public String getPropertyChangeName() {
 
 		return "persons";

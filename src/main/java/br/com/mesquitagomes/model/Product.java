@@ -7,12 +7,12 @@ public class Product extends AbstractModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String description;
-	private Integer quantity;
-	private Float price;
+	private Integer quantity = 0;
+	private Double unitPrice = 0.0;
 
 	public enum ProductColumns {
 
-		DESCRIPTION("description"), QUANTITY("quantity"), PRICE("price");
+		DESCRIPTION("description"), QUANTITY("quantity"), UNIT_PRICE("unitPrice"), TOTAL_PRICE("totalPrice");
 
 		private String name;
 
@@ -45,21 +45,30 @@ public class Product extends AbstractModel implements Serializable {
 
 	public void setQuantity(Integer quantity) {
 
-		Integer oldValue = this.quantity;
+		double totalPriceOld = getTotalPrice();
+		int oldValue = this.quantity;
 		this.quantity = quantity;
 		firePropertyChange(ProductColumns.QUANTITY.getName(), oldValue, this.quantity);
+		firePropertyChange(ProductColumns.TOTAL_PRICE.getName(), totalPriceOld, getTotalPrice());
 	}
 
-	public Float getPrice() {
+	public Double getUnitPrice() {
 
-		return price;
+		return unitPrice;
 	}
 
-	public void setPrice(Float price) {
+	public void setUnitPrice(Double unitPrice) {
 
-		Float oldValue = this.price;
-		this.price = price;
-		firePropertyChange(ProductColumns.PRICE.getName(), oldValue, this.price);
+		double totalPriceOld = getTotalPrice();
+		double oldValue = this.unitPrice;
+		this.unitPrice = unitPrice;
+		firePropertyChange(ProductColumns.UNIT_PRICE.getName(), oldValue, this.unitPrice);
+		firePropertyChange(ProductColumns.TOTAL_PRICE.getName(), totalPriceOld, getTotalPrice());
+	}
+
+	public Double getTotalPrice() {
+
+		return quantity * unitPrice;
 	}
 
 }

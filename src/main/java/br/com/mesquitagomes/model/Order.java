@@ -1,10 +1,12 @@
 package main.java.br.com.mesquitagomes.model;
 
-public class Order {
+public class Order extends AbstractModel {
 
-	private Person owner;
-	private Person client;
-	private Products products;
+	public static final Integer OWNER_DEFAULT_ID = 1;
+
+	private Person owner = new Person();
+	private Person client = new Person();
+	private Products products = new Products();
 
 	public Person getOwner() {
 
@@ -13,7 +15,9 @@ public class Order {
 
 	public void setOwner(Person owner) {
 
+		Person oldValue = this.owner;
 		this.owner = owner;
+		firePropertyChange("owner", oldValue, this.owner);
 	}
 
 	public Person getClient() {
@@ -23,7 +27,9 @@ public class Order {
 
 	public void setClient(Person client) {
 
+		Person oldValue = this.client;
 		this.client = client;
+		firePropertyChange("client", oldValue, this.client);
 	}
 
 	public Products getProducts() {
@@ -33,7 +39,14 @@ public class Order {
 
 	public void setProducts(Products products) {
 
+		Products oldValue = this.products;
 		this.products = products;
+		firePropertyChange("products", oldValue, this.products);
+	}
+
+	public String toString() {
+
+		return "Owner: " + owner.getName() + "\nClient: " + client.getName() + "\nProducts Quantity: " + products.getProductsCount();
 	}
 
 }

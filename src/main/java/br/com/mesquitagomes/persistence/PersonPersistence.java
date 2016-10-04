@@ -7,6 +7,7 @@ import javax.persistence.Query;
 import javax.persistence.Table;
 
 import main.java.br.com.mesquitagomes.model.Person;
+import main.java.br.com.mesquitagomes.model.Person.PersonColumns;
 
 public class PersonPersistence extends AbstractPersistence<Person> {
 
@@ -17,9 +18,9 @@ public class PersonPersistence extends AbstractPersistence<Person> {
 	}
 
 	@Override
-	public Person getByPK(Person entity) {
+	public Person getById(Integer id) {
 
-		return entityManager.find(Person.class, entity.getId());
+		return entityManager.find(Person.class, id);
 	}
 
 	@Override
@@ -44,6 +45,17 @@ public class PersonPersistence extends AbstractPersistence<Person> {
 	public String getSELECT() {
 
 		return SELECT;
+	}
+
+	public List<Person> getByDocsOR(Integer cpf, Integer rg, Integer cnpj, Integer ie) {
+
+		String query = SELECT + " where ";
+		query += PersonColumns.CPF.getName() + " like ?";
+		query += "or " + PersonColumns.RG.getName() + " like ?";
+		query += "or " + PersonColumns.CNPJ.getName() + " like ?";
+		query += "or " + PersonColumns.IE.getName() + " like ?";
+
+		return getByQuery(query, cpf + "%", rg + "%", cnpj + "%", ie + "%");
 	}
 
 }

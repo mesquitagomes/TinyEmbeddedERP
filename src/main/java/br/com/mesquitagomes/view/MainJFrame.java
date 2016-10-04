@@ -10,11 +10,12 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 
+import main.java.br.com.mesquitagomes.model.Person;
 import main.java.br.com.mesquitagomes.persistence.PersistenceFactory;
 
 public class MainJFrame extends JFrame {
@@ -24,9 +25,7 @@ public class MainJFrame extends JFrame {
 	private PersistenceFactory persistenceFactory;
 	private JMenuItem mntmPerson;
 	private JTabbedPane centerTabbedPane;
-	private JSplitPane personSplitPane;
 	private PersonJPanel personPanel;
-	private PersonTableJPanel personTablePanel;
 	private OrderJPanel orderPanel;
 
 	/**
@@ -43,8 +42,8 @@ public class MainJFrame extends JFrame {
 	 */
 	private void initialize() {
 
-		setTitle("TinyEmbeddedERP - Ferramentaria MG - by Marcel Mesquita Gomes");
-		setBounds(100, 100, 450, 600);
+		setTitle("TinyEmbeddedERP - by Marcel Mesquita Gomes");
+		setBounds(100, 100, 800, 700);
 		setMinimumSize(getSize());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -79,7 +78,7 @@ public class MainJFrame extends JFrame {
 
 						public void actionPerformed(ActionEvent e) {
 
-							centerTabbedPane.setSelectedComponent(personSplitPane);
+							centerTabbedPane.setSelectedComponent(personPanel);
 						}
 					});
 					mainToolBar.add(mntmPerson);
@@ -94,6 +93,11 @@ public class MainJFrame extends JFrame {
 						}
 					});
 					mainToolBar.add(mntmOrder);
+				}
+				{
+					JMenuItem mntmPrintOrder = new JMenuItem("Print Order");
+					mntmPrintOrder.setEnabled(false);
+					mainToolBar.add(mntmPrintOrder);
 				}
 			}
 			{
@@ -126,24 +130,36 @@ public class MainJFrame extends JFrame {
 		{
 			centerTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 			getContentPane().add(centerTabbedPane, BorderLayout.CENTER);
-			personSplitPane = new JSplitPane();
-			centerTabbedPane.addTab("Person", null, personSplitPane, null);
-			personSplitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			{
 				personPanel = new PersonJPanel(persistenceFactory);
-				personSplitPane.setTopComponent(personPanel);
-
-				personTablePanel = new PersonTableJPanel(persistenceFactory);
-				personSplitPane.setBottomComponent(personTablePanel);
+				centerTabbedPane.addTab("Person", null, personPanel, null);
 			}
 			{
-				orderPanel = new OrderJPanel();
+				orderPanel = new OrderJPanel(persistenceFactory);
 				centerTabbedPane.addTab("Order", null, orderPanel, null);
 			}
 		}
 
 		initDataBindings();
 
+	}
+
+	public void newOrder(Person client) {
+
+		personPanel.addNewOrderActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				Person person = personPanel.getSelectedPerson();
+
+				if (person == null) JOptionPane.showMessageDialog(getParent(), "Select a person.", "", JOptionPane.WARNING_MESSAGE);
+				else {
+					orderPanel.setClient(person);
+					orderPanel.setFocusable(true);
+				}
+			}
+		});
 	}
 
 	public void exitProcedure() {

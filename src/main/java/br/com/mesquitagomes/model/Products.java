@@ -7,6 +7,11 @@ public class Products extends AbstractModel {
 
 	protected List<Product> products = new ArrayList<Product>();
 
+	public String getPropertyChangeName() {
+
+		return "products";
+	}
+
 	public List<Product> getProducts() {
 
 		return products;
@@ -34,23 +39,20 @@ public class Products extends AbstractModel {
 
 	public void removeProduct(Product product) {
 
+		double totalPriceOld = getTotalPrice();
 		List<Product> oldValue = products;
 		products = new ArrayList<Product>(products);
 		products.remove(product);
 		firePropertyChange(getPropertyChangeName(), oldValue, products);
+		firePropertyChange("totalPrice", totalPriceOld, getTotalPrice());
 	}
 
-	public String getPropertyChangeName() {
+	public Double getTotalPrice() {
 
-		return "products";
-	}
-
-	public Integer getTotalPrice() {
-
-		int totalPrice = 0;
+		double totalPrice = 0;
 
 		for (Product product : products)
-			totalPrice += product.getPrice();
+			totalPrice += product.getTotalPrice();
 
 		return totalPrice;
 	}
