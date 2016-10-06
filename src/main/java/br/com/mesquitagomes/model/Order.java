@@ -8,6 +8,12 @@ public class Order extends AbstractModel {
 	private Person client = new Person();
 	private Products products = new Products();
 
+	public enum OrderPropertyChangeEnum {
+
+		owner(), client(), products(); // TODO
+
+	}
+
 	public Person getOwner() {
 
 		return owner;

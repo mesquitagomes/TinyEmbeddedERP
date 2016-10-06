@@ -49,19 +49,14 @@ public class Adress extends AbstractModel implements Serializable {
 
 	public enum AdressColumns {
 
-		ID("id"), PERSON("person_id"), ZIPCODE("zipcode"), ADRESS("adress"), NUMBER("number"), COMPLEMENT("complement"), CITY(
-				"city"), REGION("region"), COUNTRY("country");
+		id(), person_id(), zipcode(), adress(), number(), complement(), city(), region(), country();
 
-		private String name;
+	}
 
-		AdressColumns(String name) {
-			this.name = name;
-		}
+	public enum AdressPropertyChangeEnum {
 
-		public String getName() {
+		id(), person(), zipcode(), adress(), number(), complement(), city(), region(), country();
 
-			return name;
-		}
 	}
 
 	public Integer getId() {
@@ -73,7 +68,7 @@ public class Adress extends AbstractModel implements Serializable {
 
 		Integer oldValue = this.id;
 		this.id = id;
-		firePropertyChange(AdressColumns.ID.getName(), oldValue, this.id);
+		firePropertyChange(AdressPropertyChangeEnum.id.name(), oldValue, this.id);
 	}
 
 	public Person getPerson() {
@@ -85,7 +80,7 @@ public class Adress extends AbstractModel implements Serializable {
 
 		Person oldValue = this.person;
 		this.person = person;
-		firePropertyChange(AdressColumns.PERSON.getName(), oldValue, this.person);
+		firePropertyChange(AdressPropertyChangeEnum.person.name(), oldValue, this.person);
 	}
 
 	public Integer getZipcode() {
@@ -97,7 +92,7 @@ public class Adress extends AbstractModel implements Serializable {
 
 		Integer oldValue = this.zipcode;
 		this.zipcode = zipcode;
-		firePropertyChange(AdressColumns.ZIPCODE.getName(), oldValue, this.zipcode);
+		firePropertyChange(AdressPropertyChangeEnum.zipcode.name(), oldValue, this.zipcode);
 	}
 
 	public String getAdress() {
@@ -109,7 +104,7 @@ public class Adress extends AbstractModel implements Serializable {
 
 		String oldValue = this.adress;
 		this.adress = adress;
-		firePropertyChange(AdressColumns.ADRESS.getName(), oldValue, this.adress);
+		firePropertyChange(AdressPropertyChangeEnum.adress.name(), oldValue, this.adress);
 	}
 
 	public Integer getNumber() {
@@ -122,7 +117,7 @@ public class Adress extends AbstractModel implements Serializable {
 		this.number = number;
 		Integer oldValue = this.number;
 		this.number = number;
-		firePropertyChange(AdressColumns.NUMBER.getName(), oldValue, this.number);
+		firePropertyChange(AdressPropertyChangeEnum.number.name(), oldValue, this.number);
 	}
 
 	public String getComplement() {
@@ -134,7 +129,7 @@ public class Adress extends AbstractModel implements Serializable {
 
 		String oldValue = this.complement;
 		this.complement = complement;
-		firePropertyChange(AdressColumns.COMPLEMENT.getName(), oldValue, this.complement);
+		firePropertyChange(AdressPropertyChangeEnum.complement.name(), oldValue, this.complement);
 	}
 
 	public String getCity() {
@@ -146,7 +141,7 @@ public class Adress extends AbstractModel implements Serializable {
 
 		String oldValue = this.city;
 		this.city = city;
-		firePropertyChange(AdressColumns.CITY.getName(), oldValue, this.city);
+		firePropertyChange(AdressPropertyChangeEnum.city.name(), oldValue, this.city);
 	}
 
 	public String getRegion() {
@@ -158,7 +153,7 @@ public class Adress extends AbstractModel implements Serializable {
 
 		String oldValue = this.region;
 		this.region = region;
-		firePropertyChange(AdressColumns.REGION.getName(), oldValue, this.region);
+		firePropertyChange(AdressPropertyChangeEnum.region.name(), oldValue, this.region);
 	}
 
 	public String getCountry() {
@@ -170,7 +165,7 @@ public class Adress extends AbstractModel implements Serializable {
 
 		String oldValue = this.country;
 		this.country = country;
-		firePropertyChange(AdressColumns.COUNTRY.getName(), oldValue, this.country);
+		firePropertyChange(AdressPropertyChangeEnum.country.name(), oldValue, this.country);
 	}
 
 }

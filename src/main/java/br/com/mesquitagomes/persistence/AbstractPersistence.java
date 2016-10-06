@@ -96,7 +96,7 @@ public abstract class AbstractPersistence<T> {
 	public List<T> getByColumn(String column, String value) {
 
 		String sqlQuery = getSELECT() + " where " + column + " like ?";
-		return getByQuery(sqlQuery, value);
+		return getByQuery(sqlQuery, value + "%");
 	}
 
 }

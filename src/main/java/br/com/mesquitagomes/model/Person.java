@@ -24,19 +24,20 @@ public class Person extends AbstractModel implements Serializable {
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
 	@Basic
-	@Column(name = "name", length = 200, nullable = false)
+	@Column(name = "value", length = 200, nullable = false)
 	private String name;
 	@Basic
-	@Column(name = "cpf")
-	private Integer CPF;
-	@Column(name = "rg", length = 15)
-	private String RG;
-	@Basic
 	@Column(name = "cnpj")
-	private Integer CNPJ;
+	private Integer cnpj;
 	@Basic
 	@Column(name = "ie")
-	private Integer IE;
+	private Integer ie;
+	@Basic
+	@Column(name = "cpf")
+	private Integer cpf;
+	@Basic
+	@Column(name = "rg", length = 15)
+	private String rg;
 	@Basic
 	@Column(name = "email")
 	private String email;
@@ -47,18 +48,14 @@ public class Person extends AbstractModel implements Serializable {
 
 	public enum PersonColumns {
 
-		ID("id"), NAME("name"), CPF("cpf"), RG("rg"), CNPJ("cnpj"), IE("ie"), EMAIL("email");
+		id(), name(), cpf(), rg(), cnpj(), ie(), email();
 
-		private String name;
+	}
 
-		PersonColumns(String name) {
-			this.name = name;
-		}
+	public enum PersonPropertyChangeEnum {
 
-		public String getName() {
+		id(), name(), cpf(), rg(), cnpj(), ie(), email(), phones(), adresses();
 
-			return name;
-		}
 	}
 
 	public Integer getId() {
@@ -70,7 +67,7 @@ public class Person extends AbstractModel implements Serializable {
 
 		Integer oldValue = this.id;
 		this.id = id;
-		firePropertyChange(PersonColumns.ID.getName(), oldValue, this.id);
+		firePropertyChange(PersonPropertyChangeEnum.id.name(), oldValue, this.id);
 	}
 
 	public String getName() {
@@ -82,55 +79,55 @@ public class Person extends AbstractModel implements Serializable {
 
 		String oldValue = this.name;
 		this.name = name;
-		firePropertyChange(PersonColumns.NAME.getName(), oldValue, this.name);
+		firePropertyChange(PersonPropertyChangeEnum.name.name(), oldValue, this.name);
 	}
 
-	public Integer getCPF() {
+	public Integer getCnpj() {
 
-		return CPF;
+		return cnpj;
 	}
 
-	public void setCPF(Integer cPF) {
+	public void setCnpj(Integer cnpj) {
 
-		Integer oldValue = CPF;
-		CPF = cPF;
-		firePropertyChange(PersonColumns.CPF.getName(), oldValue, CPF);
+		Integer oldValue = this.cnpj;
+		this.cnpj = cnpj;
+		firePropertyChange(PersonPropertyChangeEnum.cnpj.name(), oldValue, this.cnpj);
 	}
 
-	public String getRG() {
+	public Integer getIe() {
 
-		return RG;
+		return ie;
 	}
 
-	public void setRG(String rG) {
+	public void setIe(Integer ie) {
 
-		String oldValue = RG;
-		RG = rG;
-		firePropertyChange(PersonColumns.RG.getName(), oldValue, RG);
+		Integer oldValue = this.ie;
+		this.ie = ie;
+		firePropertyChange(PersonPropertyChangeEnum.ie.name(), oldValue, this.ie);
 	}
 
-	public Integer getCNPJ() {
+	public Integer getCpf() {
 
-		return CNPJ;
+		return cpf;
 	}
 
-	public void setCNPJ(Integer cNPJ) {
+	public void setCpf(Integer cpf) {
 
-		Integer oldValue = CNPJ;
-		CNPJ = cNPJ;
-		firePropertyChange(PersonColumns.CNPJ.getName(), oldValue, CNPJ);
+		Integer oldValue = this.cpf;
+		this.cpf = cpf;
+		firePropertyChange(PersonPropertyChangeEnum.cpf.name(), oldValue, this.cpf);
 	}
 
-	public Integer getIE() {
+	public String getRg() {
 
-		return IE;
+		return rg;
 	}
 
-	public void setIE(Integer iE) {
+	public void setRg(String rg) {
 
-		Integer oldValue = IE;
-		IE = iE;
-		firePropertyChange(PersonColumns.IE.getName(), oldValue, IE);
+		String oldValue = this.rg;
+		this.rg = rg;
+		firePropertyChange(PersonPropertyChangeEnum.rg.name(), oldValue, this.rg);
 	}
 
 	public String getEmail() {
@@ -142,7 +139,7 @@ public class Person extends AbstractModel implements Serializable {
 
 		String oldValue = this.email;
 		this.email = email;
-		firePropertyChange(PersonColumns.EMAIL.getName(), oldValue, this.email);
+		firePropertyChange(PersonPropertyChangeEnum.email.name(), oldValue, this.email);
 	}
 
 	public List<Phone> getPhones() {
@@ -160,7 +157,7 @@ public class Person extends AbstractModel implements Serializable {
 		List<Phone> oldValue = phones;
 		phones = new ArrayList<Phone>(phones);
 		phones.add(phone);
-		firePropertyChange("phones", oldValue, phones);
+		firePropertyChange(PersonPropertyChangeEnum.phones.name(), oldValue, phones);
 	}
 
 	public void removePhone(Phone phone) {
@@ -168,7 +165,7 @@ public class Person extends AbstractModel implements Serializable {
 		List<Phone> oldValue = phones;
 		phones = new ArrayList<Phone>(phones);
 		phones.remove(phone);
-		firePropertyChange("phones", oldValue, phones);
+		firePropertyChange(PersonPropertyChangeEnum.phones.name(), oldValue, phones);
 	}
 
 	public List<Adress> getAdresses() {
@@ -186,7 +183,7 @@ public class Person extends AbstractModel implements Serializable {
 		List<Adress> oldValue = adresses;
 		adresses = new ArrayList<Adress>(adresses);
 		adresses.add(adress);
-		firePropertyChange("adresses", oldValue, adresses);
+		firePropertyChange(PersonPropertyChangeEnum.adresses.name(), oldValue, adresses);
 	}
 
 	public void removeAdress(Adress adress) {
@@ -194,16 +191,16 @@ public class Person extends AbstractModel implements Serializable {
 		List<Adress> oldValue = adresses;
 		adresses = new ArrayList<Adress>(adresses);
 		phones.remove(adress);
-		firePropertyChange("adresses", oldValue, adresses);
+		firePropertyChange(PersonPropertyChangeEnum.adresses.name(), oldValue, adresses);
 	}
 
 	public String toString() {
 
-		String str = "id:[" + id + "] name:[" + name + "]";
-		if (CPF != null) str += " cpf:[" + CPF + "]";
-		if (RG != null) str += " rg:[" + RG + "]";
-		if (CNPJ != null) str += " cnpj:[" + CNPJ + "]";
-		if (IE != null) str += " ie:[" + IE + "]";
+		String str = "id:[" + id + "] value:[" + name + "]";
+		if (cpf != null) str += " cpf:[" + cpf + "]";
+		if (rg != null) str += " rg:[" + rg + "]";
+		if (cnpj != null) str += " cnpj:[" + cnpj + "]";
+		if (ie != null) str += " ie:[" + ie + "]";
 
 		return str;
 	}

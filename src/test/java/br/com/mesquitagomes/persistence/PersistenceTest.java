@@ -1,11 +1,11 @@
-package test.java.br.com.mesquitagomes.model;
+package test.java.br.com.mesquitagomes.persistence;
 
 import java.util.Arrays;
 import java.util.List;
 
 import main.java.br.com.mesquitagomes.model.Person;
 import main.java.br.com.mesquitagomes.model.Phone;
-import main.java.br.com.mesquitagomes.model.Person.PersonColumns;
+import main.java.br.com.mesquitagomes.model.Person.PersonPropertyChangeEnum;
 import main.java.br.com.mesquitagomes.persistence.AbstractPersistence;
 import main.java.br.com.mesquitagomes.persistence.PersistenceFactory;
 
@@ -30,7 +30,7 @@ public class PersistenceTest {
 
 		AbstractPersistence<Person> persistence = persistenceFactory.getPersistence(Person.class);
 
-		String column = PersonColumns.NAME.getName();
+		String column = PersonPropertyChangeEnum.NAME.getValue();
 
 		List<Person> person = persistence.getByColumn(column, name);
 

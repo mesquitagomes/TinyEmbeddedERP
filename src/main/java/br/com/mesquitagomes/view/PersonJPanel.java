@@ -46,10 +46,10 @@ public class PersonJPanel extends JPanel {
 	private Persons persons = new Persons();
 	private JTextField idJTextField;
 	private JTextField nameJTextField;
-	private JFormattedTextField CNPJJFormattedTextField;
-	private JFormattedTextField IEJFormattedTextField;
-	private JFormattedTextField CPFJFormattedTextField;
-	private JFormattedTextField RGJFormattedTextField;
+	private JFormattedTextField cnpjJFormattedTextField;
+	private JFormattedTextField ieJFormattedTextField;
+	private JFormattedTextField cpfJFormattedTextField;
+	private JFormattedTextField rgJFormattedTextField;
 	private JButton btnSavePerson;
 	private JPanel personButtonPanel;
 	private JButton btnDeletePerson;
@@ -171,73 +171,73 @@ public class PersonJPanel extends JPanel {
 				gbc_emailJFormattedTextField.gridy = 1;
 				personPanel.add(emailJFormattedTextField, gbc_emailJFormattedTextField);
 
-				JLabel CNPJLabel = new JLabel("CNPJ:");
-				GridBagConstraints gbc_CNPJLabel = new GridBagConstraints();
-				gbc_CNPJLabel.anchor = GridBagConstraints.EAST;
-				gbc_CNPJLabel.fill = GridBagConstraints.VERTICAL;
-				gbc_CNPJLabel.insets = new Insets(0, 0, 5, 5);
-				gbc_CNPJLabel.gridx = 0;
-				gbc_CNPJLabel.gridy = 2;
-				personPanel.add(CNPJLabel, gbc_CNPJLabel);
+				JLabel cnpjJLabel = new JLabel("CNPJ:");
+				GridBagConstraints gbc_cnpjJLabel = new GridBagConstraints();
+				gbc_cnpjJLabel.anchor = GridBagConstraints.EAST;
+				gbc_cnpjJLabel.fill = GridBagConstraints.VERTICAL;
+				gbc_cnpjJLabel.insets = new Insets(0, 0, 5, 5);
+				gbc_cnpjJLabel.gridx = 0;
+				gbc_cnpjJLabel.gridy = 2;
+				personPanel.add(cnpjJLabel, gbc_cnpjJLabel);
 
-				CNPJJFormattedTextField = new JFormattedTextField();
-				GridBagConstraints gbc_CNPJJFormattedTextField = new GridBagConstraints();
-				gbc_CNPJJFormattedTextField.fill = GridBagConstraints.BOTH;
-				gbc_CNPJJFormattedTextField.insets = new Insets(0, 0, 5, 5);
-				gbc_CNPJJFormattedTextField.gridx = 1;
-				gbc_CNPJJFormattedTextField.gridy = 2;
-				personPanel.add(CNPJJFormattedTextField, gbc_CNPJJFormattedTextField);
+				cnpjJFormattedTextField = new JFormattedTextField();
+				GridBagConstraints gbc_cnpjJFormattedTextField = new GridBagConstraints();
+				gbc_cnpjJFormattedTextField.fill = GridBagConstraints.BOTH;
+				gbc_cnpjJFormattedTextField.insets = new Insets(0, 0, 5, 5);
+				gbc_cnpjJFormattedTextField.gridx = 1;
+				gbc_cnpjJFormattedTextField.gridy = 2;
+				personPanel.add(cnpjJFormattedTextField, gbc_cnpjJFormattedTextField);
 
-				JLabel IELabel = new JLabel("IE:");
-				GridBagConstraints gbc_IELabel = new GridBagConstraints();
-				gbc_IELabel.anchor = GridBagConstraints.EAST;
-				gbc_IELabel.fill = GridBagConstraints.VERTICAL;
-				gbc_IELabel.insets = new Insets(0, 0, 5, 5);
-				gbc_IELabel.gridx = 2;
-				gbc_IELabel.gridy = 2;
-				personPanel.add(IELabel, gbc_IELabel);
+				JLabel ieLabel = new JLabel("IE:");
+				GridBagConstraints gbc_ieLabel = new GridBagConstraints();
+				gbc_ieLabel.anchor = GridBagConstraints.EAST;
+				gbc_ieLabel.fill = GridBagConstraints.VERTICAL;
+				gbc_ieLabel.insets = new Insets(0, 0, 5, 5);
+				gbc_ieLabel.gridx = 2;
+				gbc_ieLabel.gridy = 2;
+				personPanel.add(ieLabel, gbc_ieLabel);
 
-				IEJFormattedTextField = new JFormattedTextField();
-				GridBagConstraints gbc_IEJFormattedTextField = new GridBagConstraints();
-				gbc_IEJFormattedTextField.fill = GridBagConstraints.BOTH;
-				gbc_IEJFormattedTextField.insets = new Insets(0, 0, 5, 0);
-				gbc_IEJFormattedTextField.gridx = 3;
-				gbc_IEJFormattedTextField.gridy = 2;
-				personPanel.add(IEJFormattedTextField, gbc_IEJFormattedTextField);
+				ieJFormattedTextField = new JFormattedTextField();
+				GridBagConstraints gbc_ieJFormattedTextField = new GridBagConstraints();
+				gbc_ieJFormattedTextField.fill = GridBagConstraints.BOTH;
+				gbc_ieJFormattedTextField.insets = new Insets(0, 0, 5, 0);
+				gbc_ieJFormattedTextField.gridx = 3;
+				gbc_ieJFormattedTextField.gridy = 2;
+				personPanel.add(ieJFormattedTextField, gbc_ieJFormattedTextField);
 
-				JLabel CPFLabel = new JLabel("CPF:");
-				GridBagConstraints gbc_CPFLabel = new GridBagConstraints();
-				gbc_CPFLabel.anchor = GridBagConstraints.EAST;
-				gbc_CPFLabel.fill = GridBagConstraints.VERTICAL;
-				gbc_CPFLabel.insets = new Insets(0, 0, 5, 5);
-				gbc_CPFLabel.gridx = 0;
-				gbc_CPFLabel.gridy = 3;
-				personPanel.add(CPFLabel, gbc_CPFLabel);
+				JLabel cpfLabel = new JLabel("CPF:");
+				GridBagConstraints gbc_cpfLabel = new GridBagConstraints();
+				gbc_cpfLabel.anchor = GridBagConstraints.EAST;
+				gbc_cpfLabel.fill = GridBagConstraints.VERTICAL;
+				gbc_cpfLabel.insets = new Insets(0, 0, 5, 5);
+				gbc_cpfLabel.gridx = 0;
+				gbc_cpfLabel.gridy = 3;
+				personPanel.add(cpfLabel, gbc_cpfLabel);
 
-				CPFJFormattedTextField = new JFormattedTextField();
-				GridBagConstraints gbc_CPFJFormattedTextField = new GridBagConstraints();
-				gbc_CPFJFormattedTextField.fill = GridBagConstraints.BOTH;
-				gbc_CPFJFormattedTextField.insets = new Insets(0, 0, 5, 5);
-				gbc_CPFJFormattedTextField.gridx = 1;
-				gbc_CPFJFormattedTextField.gridy = 3;
-				personPanel.add(CPFJFormattedTextField, gbc_CPFJFormattedTextField);
+				cpfJFormattedTextField = new JFormattedTextField();
+				GridBagConstraints gbc_cpfJFormattedTextField = new GridBagConstraints();
+				gbc_cpfJFormattedTextField.fill = GridBagConstraints.BOTH;
+				gbc_cpfJFormattedTextField.insets = new Insets(0, 0, 5, 5);
+				gbc_cpfJFormattedTextField.gridx = 1;
+				gbc_cpfJFormattedTextField.gridy = 3;
+				personPanel.add(cpfJFormattedTextField, gbc_cpfJFormattedTextField);
 
-				JLabel RGLabel = new JLabel("RG:");
-				GridBagConstraints gbc_RGLabel = new GridBagConstraints();
-				gbc_RGLabel.anchor = GridBagConstraints.EAST;
-				gbc_RGLabel.fill = GridBagConstraints.VERTICAL;
-				gbc_RGLabel.insets = new Insets(0, 0, 5, 5);
-				gbc_RGLabel.gridx = 2;
-				gbc_RGLabel.gridy = 3;
-				personPanel.add(RGLabel, gbc_RGLabel);
+				JLabel rgLabel = new JLabel("RG:");
+				GridBagConstraints gbc_rgLabel = new GridBagConstraints();
+				gbc_rgLabel.anchor = GridBagConstraints.EAST;
+				gbc_rgLabel.fill = GridBagConstraints.VERTICAL;
+				gbc_rgLabel.insets = new Insets(0, 0, 5, 5);
+				gbc_rgLabel.gridx = 2;
+				gbc_rgLabel.gridy = 3;
+				personPanel.add(rgLabel, gbc_rgLabel);
 
-				RGJFormattedTextField = new JFormattedTextField();
-				GridBagConstraints gbc_RGJFormattedTextField = new GridBagConstraints();
-				gbc_RGJFormattedTextField.fill = GridBagConstraints.BOTH;
-				gbc_RGJFormattedTextField.insets = new Insets(0, 0, 5, 0);
-				gbc_RGJFormattedTextField.gridx = 3;
-				gbc_RGJFormattedTextField.gridy = 3;
-				personPanel.add(RGJFormattedTextField, gbc_RGJFormattedTextField);
+				rgJFormattedTextField = new JFormattedTextField();
+				GridBagConstraints gbc_rgJFormattedTextField = new GridBagConstraints();
+				gbc_rgJFormattedTextField.fill = GridBagConstraints.BOTH;
+				gbc_rgJFormattedTextField.insets = new Insets(0, 0, 5, 0);
+				gbc_rgJFormattedTextField.gridx = 3;
+				gbc_rgJFormattedTextField.gridy = 3;
+				personPanel.add(rgJFormattedTextField, gbc_rgJFormattedTextField);
 
 				phonesPanel = new JPanel();
 				GridBagConstraints gbc_phonesPanel = new GridBagConstraints();
@@ -412,7 +412,7 @@ public class PersonJPanel extends JPanel {
 							newPpersons = personPersistence.getByDocsOR(val, val, val, val);
 							newPpersons.add(personPersistence.getById(val));
 						} catch (NumberFormatException e1) {
-							newPpersons = personPersistence.getByColumn(PersonColumns.NAME.getName(), value);
+							newPpersons = personPersistence.getByColumn(PersonColumns.name.name(), value);
 						}
 
 						persons.setPersons(newPpersons);
@@ -516,80 +516,80 @@ public class PersonJPanel extends JPanel {
 				nameProperty, nameJTextField, nameTextProperty);
 		nameAutoBinding.bind();
 		//
-		BeanProperty<Person, String> personBeanProperty_2 = BeanProperty.create("email");
-		BeanProperty<JFormattedTextField, String> jFormattedTextFieldBeanProperty = BeanProperty.create("text");
-		AutoBinding<Person, String, JFormattedTextField, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, person,
-				personBeanProperty_2, emailJFormattedTextField, jFormattedTextFieldBeanProperty);
-		autoBinding.bind();
+		BeanProperty<Person, String> emailBeanProperty = BeanProperty.create("email");
+		BeanProperty<JFormattedTextField, String> emailTextProperty = BeanProperty.create("text");
+		AutoBinding<Person, String, JFormattedTextField, String> emailAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+				person, emailBeanProperty, emailJFormattedTextField, emailTextProperty);
+		emailAutoBinding.bind();
 		//
-		BeanProperty<Person, Integer> cNPJProperty = BeanProperty.create("cnpj");
-		BeanProperty<JFormattedTextField, String> cNPJTextProperty = BeanProperty.create("text");
-		AutoBinding<Person, Integer, JFormattedTextField, String> cNPJautoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
-				person, cNPJProperty, CNPJJFormattedTextField, cNPJTextProperty);
-		cNPJautoBinding.bind();
+		BeanProperty<Person, Integer> cnpjProperty = BeanProperty.create("cnpj");
+		BeanProperty<JFormattedTextField, String> cnpjTextProperty = BeanProperty.create("text");
+		AutoBinding<Person, Integer, JFormattedTextField, String> cnpjAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+				person, cnpjProperty, cnpjJFormattedTextField, cnpjTextProperty);
+		cnpjAutoBinding.bind();
 		//
-		BeanProperty<Person, Integer> iEProperty = BeanProperty.create("ie");
-		BeanProperty<JFormattedTextField, String> iETextProperty = BeanProperty.create("text");
-		AutoBinding<Person, Integer, JFormattedTextField, String> iEAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
-				person, iEProperty, IEJFormattedTextField, iETextProperty);
-		iEAutoBinding.bind();
+		BeanProperty<Person, Integer> ieProperty = BeanProperty.create("ie");
+		BeanProperty<JFormattedTextField, String> ieTextProperty = BeanProperty.create("text");
+		AutoBinding<Person, Integer, JFormattedTextField, String> ieAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+				person, ieProperty, ieJFormattedTextField, ieTextProperty);
+		ieAutoBinding.bind();
 		//
-		BeanProperty<Person, Integer> cPFProperty = BeanProperty.create("cpf");
-		BeanProperty<JFormattedTextField, String> cPFPTextProperty = BeanProperty.create("text");
-		AutoBinding<Person, Integer, JFormattedTextField, String> cPFPAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
-				person, cPFProperty, CPFJFormattedTextField, cPFPTextProperty);
-		cPFPAutoBinding.bind();
+		BeanProperty<Person, Integer> cpfProperty = BeanProperty.create("cpf");
+		BeanProperty<JFormattedTextField, String> cpfTextProperty = BeanProperty.create("text");
+		AutoBinding<Person, Integer, JFormattedTextField, String> cpfAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+				person, cpfProperty, cpfJFormattedTextField, cpfTextProperty);
+		cpfAutoBinding.bind();
 		//
-		BeanProperty<Person, String> rGProperty = BeanProperty.create("rg");
-		BeanProperty<JFormattedTextField, String> rGTextProperty = BeanProperty.create("text");
-		AutoBinding<Person, String, JFormattedTextField, String> rGAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
-				person, rGProperty, RGJFormattedTextField, rGTextProperty);
-		rGAutoBinding.bind();
+		BeanProperty<Person, String> rgProperty = BeanProperty.create("rg");
+		BeanProperty<JFormattedTextField, String> rgTextProperty = BeanProperty.create("text");
+		AutoBinding<Person, String, JFormattedTextField, String> rgAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+				person, rgProperty, rgJFormattedTextField, rgTextProperty);
+		rgAutoBinding.bind();
 		//
-		BeanProperty<Person, List<Phone>> personBeanProperty = BeanProperty.create("phones");
-		JTableBinding<Phone, Person, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, person,
-				personBeanProperty, phonesTable);
+		BeanProperty<Person, List<Phone>> phonesBeanProperty = BeanProperty.create("phones");
+		JTableBinding<Phone, Person, JTable> phonesJTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, person,
+				phonesBeanProperty, phonesTable);
 		//
 		BeanProperty<Phone, Integer> phoneBeanProperty = BeanProperty.create("id");
-		jTableBinding.addColumnBinding(phoneBeanProperty).setColumnName("Id");
+		phonesJTableBinding.addColumnBinding(phoneBeanProperty).setColumnName("Id");
 		//
 		BeanProperty<Phone, String> phoneBeanProperty_1 = BeanProperty.create("type");
-		jTableBinding.addColumnBinding(phoneBeanProperty_1).setColumnName("Type");
+		phonesJTableBinding.addColumnBinding(phoneBeanProperty_1).setColumnName("Type");
 		//
 		BeanProperty<Phone, Integer> phoneBeanProperty_2 = BeanProperty.create("number");
-		jTableBinding.addColumnBinding(phoneBeanProperty_2).setColumnName("Number");
+		phonesJTableBinding.addColumnBinding(phoneBeanProperty_2).setColumnName("Number");
 		//
-		jTableBinding.bind();
+		phonesJTableBinding.bind();
 		//
-		BeanProperty<Person, List<Adress>> personBeanProperty_1 = BeanProperty.create("adresses");
-		JTableBinding<Adress, Person, JTable> jTableBinding_1 = SwingBindings.createJTableBinding(UpdateStrategy.READ, person,
-				personBeanProperty_1, adressesTable);
+		BeanProperty<Person, List<Adress>> adressesBeanProperty = BeanProperty.create("adresses");
+		JTableBinding<Adress, Person, JTable> adressesJTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, person,
+				adressesBeanProperty, adressesTable);
 		//
 		BeanProperty<Adress, Integer> adressBeanProperty = BeanProperty.create("id");
-		jTableBinding_1.addColumnBinding(adressBeanProperty).setColumnName("Id");
+		adressesJTableBinding.addColumnBinding(adressBeanProperty).setColumnName("Id");
 		//
 		BeanProperty<Adress, String> adressBeanProperty_1 = BeanProperty.create("adress");
-		jTableBinding_1.addColumnBinding(adressBeanProperty_1).setColumnName("Adress");
+		adressesJTableBinding.addColumnBinding(adressBeanProperty_1).setColumnName("Adress");
 		//
 		BeanProperty<Adress, Integer> adressBeanProperty_2 = BeanProperty.create("number");
-		jTableBinding_1.addColumnBinding(adressBeanProperty_2).setColumnName("Number");
+		adressesJTableBinding.addColumnBinding(adressBeanProperty_2).setColumnName("Number");
 		//
 		BeanProperty<Adress, String> adressBeanProperty_3 = BeanProperty.create("complement");
-		jTableBinding_1.addColumnBinding(adressBeanProperty_3).setColumnName("Complement");
+		adressesJTableBinding.addColumnBinding(adressBeanProperty_3).setColumnName("Complement");
 		//
 		BeanProperty<Adress, String> adressBeanProperty_4 = BeanProperty.create("region");
-		jTableBinding_1.addColumnBinding(adressBeanProperty_4).setColumnName("Region");
+		adressesJTableBinding.addColumnBinding(adressBeanProperty_4).setColumnName("Region");
 		//
 		BeanProperty<Adress, String> adressBeanProperty_5 = BeanProperty.create("city");
-		jTableBinding_1.addColumnBinding(adressBeanProperty_5).setColumnName("City");
+		adressesJTableBinding.addColumnBinding(adressBeanProperty_5).setColumnName("City");
 		//
 		BeanProperty<Adress, String> adressBeanProperty_6 = BeanProperty.create("country");
-		jTableBinding_1.addColumnBinding(adressBeanProperty_6).setColumnName("Country");
+		adressesJTableBinding.addColumnBinding(adressBeanProperty_6).setColumnName("Country");
 		//
 		BeanProperty<Adress, Integer> adressBeanProperty_7 = BeanProperty.create("zipcode");
-		jTableBinding_1.addColumnBinding(adressBeanProperty_7).setColumnName("Zip Code");
+		adressesJTableBinding.addColumnBinding(adressBeanProperty_7).setColumnName("Zip Code");
 		//
-		jTableBinding_1.bind();
+		adressesJTableBinding.bind();
 		//
 		BeanProperty<Persons, List<Person>> personsBeanProperty = BeanProperty.create("persons");
 		JTableBinding<Person, Persons, JTable> jTableBinding_2 = SwingBindings.createJTableBinding(UpdateStrategy.READ, persons,
@@ -622,13 +622,13 @@ public class PersonJPanel extends JPanel {
 		//
 		bindingGroup.addBinding(idAutoBinding);
 		bindingGroup.addBinding(nameAutoBinding);
-		bindingGroup.addBinding(autoBinding);
-		bindingGroup.addBinding(cNPJautoBinding);
-		bindingGroup.addBinding(iEAutoBinding);
-		bindingGroup.addBinding(cPFPAutoBinding);
-		bindingGroup.addBinding(rGAutoBinding);
-		bindingGroup.addBinding(jTableBinding);
-		bindingGroup.addBinding(jTableBinding_1);
+		bindingGroup.addBinding(emailAutoBinding);
+		bindingGroup.addBinding(cnpjAutoBinding);
+		bindingGroup.addBinding(ieAutoBinding);
+		bindingGroup.addBinding(cpfAutoBinding);
+		bindingGroup.addBinding(rgAutoBinding);
+		bindingGroup.addBinding(phonesJTableBinding);
+		bindingGroup.addBinding(adressesJTableBinding);
 		bindingGroup.addBinding(jTableBinding_2);
 		return bindingGroup;
 	}

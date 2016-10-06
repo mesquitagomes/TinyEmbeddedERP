@@ -37,18 +37,14 @@ public class Phone extends AbstractModel implements Serializable {
 
 	public enum PhoneColumns {
 
-		ID("id"), PERSON("person_id"), TYPE("type"), DDI("ddi"), NUMBER("number");
+		id(), person_id(), type(), ddi(), number();
 
-		private String name;
+	}
 
-		PhoneColumns(String name) {
-			this.name = name;
-		}
+	public enum PhonePropertyChangeEnum {
 
-		public String getName() {
+		id(), person(), type(), ddi(), number();
 
-			return name;
-		}
 	}
 
 	public Integer getId() {
@@ -60,7 +56,7 @@ public class Phone extends AbstractModel implements Serializable {
 
 		Integer oldValue = this.id;
 		this.id = id;
-		firePropertyChange(PhoneColumns.ID.getName(), oldValue, this.id);
+		firePropertyChange(PhonePropertyChangeEnum.id.name(), oldValue, this.id);
 	}
 
 	public Person getPerson() {
@@ -72,7 +68,7 @@ public class Phone extends AbstractModel implements Serializable {
 
 		Person oldValue = this.person;
 		this.person = person;
-		firePropertyChange(PhoneColumns.PERSON.getName(), oldValue, this.person);
+		firePropertyChange(PhonePropertyChangeEnum.person.name(), oldValue, this.person);
 	}
 
 	public String getType() {
@@ -84,7 +80,7 @@ public class Phone extends AbstractModel implements Serializable {
 
 		String oldValue = this.type;
 		this.type = type;
-		firePropertyChange(PhoneColumns.TYPE.getName(), oldValue, this.type);
+		firePropertyChange(PhonePropertyChangeEnum.type.name(), oldValue, this.type);
 	}
 
 	public Integer getDdi() {
@@ -96,7 +92,7 @@ public class Phone extends AbstractModel implements Serializable {
 
 		Integer oldValue = this.ddi;
 		this.ddi = ddi;
-		firePropertyChange(PhoneColumns.DDI.getName(), oldValue, this.ddi);
+		firePropertyChange(PhonePropertyChangeEnum.ddi.name(), oldValue, this.ddi);
 	}
 
 	public Integer getNumber() {
@@ -108,7 +104,7 @@ public class Phone extends AbstractModel implements Serializable {
 
 		Integer oldValue = this.number;
 		this.number = number;
-		firePropertyChange(PhoneColumns.NUMBER.getName(), oldValue, this.number);
+		firePropertyChange(PhonePropertyChangeEnum.number.name(), oldValue, this.number);
 	}
 
 	public String toString() {

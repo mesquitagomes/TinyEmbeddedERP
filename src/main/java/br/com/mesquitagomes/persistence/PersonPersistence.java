@@ -7,7 +7,7 @@ import javax.persistence.Query;
 import javax.persistence.Table;
 
 import main.java.br.com.mesquitagomes.model.Person;
-import main.java.br.com.mesquitagomes.model.Person.PersonColumns;
+import main.java.br.com.mesquitagomes.model.Person.PersonPropertyChangeEnum;
 
 public class PersonPersistence extends AbstractPersistence<Person> {
 
@@ -50,10 +50,10 @@ public class PersonPersistence extends AbstractPersistence<Person> {
 	public List<Person> getByDocsOR(Integer cpf, Integer rg, Integer cnpj, Integer ie) {
 
 		String query = SELECT + " where ";
-		query += PersonColumns.CPF.getName() + " like ?";
-		query += "or " + PersonColumns.RG.getName() + " like ?";
-		query += "or " + PersonColumns.CNPJ.getName() + " like ?";
-		query += "or " + PersonColumns.IE.getName() + " like ?";
+		query += PersonPropertyChangeEnum.CPF.getValue() + " like ?";
+		query += "or " + PersonPropertyChangeEnum.RG.getValue() + " like ?";
+		query += "or " + PersonPropertyChangeEnum.CNPJ.getValue() + " like ?";
+		query += "or " + PersonPropertyChangeEnum.IE.getValue() + " like ?";
 
 		return getByQuery(query, cpf + "%", rg + "%", cnpj + "%", ie + "%");
 	}

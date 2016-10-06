@@ -10,20 +10,10 @@ public class Product extends AbstractModel implements Serializable {
 	private Integer quantity = 0;
 	private Double unitPrice = 0.0;
 
-	public enum ProductColumns {
+	public enum ProductPropertyChangeEnum {
 
-		DESCRIPTION("description"), QUANTITY("quantity"), UNIT_PRICE("unitPrice"), TOTAL_PRICE("totalPrice");
+		description(), quantity(), unitPrice(), totalPrice();
 
-		private String name;
-
-		ProductColumns(String name) {
-			this.name = name;
-		}
-
-		public String getName() {
-
-			return name;
-		}
 	}
 
 	public String getDescription() {
@@ -35,7 +25,7 @@ public class Product extends AbstractModel implements Serializable {
 
 		String oldValue = this.description;
 		this.description = description;
-		firePropertyChange(ProductColumns.DESCRIPTION.getName(), oldValue, this.description);
+		firePropertyChange(ProductPropertyChangeEnum.description.name(), oldValue, this.description);
 	}
 
 	public Integer getQuantity() {
