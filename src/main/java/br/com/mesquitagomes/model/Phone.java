@@ -26,16 +26,13 @@ public class Phone extends AbstractModel implements Serializable {
 	@JoinColumn(name = "person_id", nullable = false)
 	private Person person;
 	@Basic
-	@Column(name = "type", length = 20, nullable = false)
+	@Column(name = "type", length = 20)
 	private String type;
 	@Basic
-	@Column(name = "ddi", nullable = false)
-	private Integer ddi;
-	@Basic
-	@Column(name = "number", nullable = false)
-	private Integer number;
+	@Column(name = "number", length = 20)
+	private String number;
 
-	public enum PhoneColumns {
+	public enum PhoneColumnsEnum {
 
 		id(), person_id(), type(), ddi(), number();
 
@@ -45,6 +42,13 @@ public class Phone extends AbstractModel implements Serializable {
 
 		id(), person(), type(), ddi(), number();
 
+	}
+
+	public Phone() {}
+
+	public Phone(Person person) {
+
+		setPerson(person);
 	}
 
 	public Integer getId() {
@@ -83,33 +87,23 @@ public class Phone extends AbstractModel implements Serializable {
 		firePropertyChange(PhonePropertyChangeEnum.type.name(), oldValue, this.type);
 	}
 
-	public Integer getDdi() {
-
-		return ddi;
-	}
-
-	public void setDdi(Integer ddi) {
-
-		Integer oldValue = this.ddi;
-		this.ddi = ddi;
-		firePropertyChange(PhonePropertyChangeEnum.ddi.name(), oldValue, this.ddi);
-	}
-
-	public Integer getNumber() {
+	public String getNumber() {
 
 		return number;
 	}
 
-	public void setNumber(Integer number) {
+	public void setNumber(String number) {
 
-		Integer oldValue = this.number;
-		this.number = number;
-		firePropertyChange(PhonePropertyChangeEnum.number.name(), oldValue, this.number);
+		if (number.matches(".*\\d+.*")) {
+			String oldValue = this.number;
+			this.number = number;
+			firePropertyChange(PhonePropertyChangeEnum.number.name(), oldValue, this.number);
+		}
 	}
 
 	public String toString() {
 
-		return type + " Phone id:[" + id + "] (" + ddi + ") " + number;
+		return type + " Phone id:[" + id + "] " + number;
 	}
 
 }

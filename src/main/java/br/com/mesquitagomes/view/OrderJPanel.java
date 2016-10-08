@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.NumberFormatter;
 
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -245,7 +246,7 @@ public class OrderJPanel extends JPanel {
 			gbc_productQuantityLable.gridy = 1;
 			productsPanel.add(productQuantityLable, gbc_productQuantityLable);
 
-			productQuantityFormattedTextField = new JFormattedTextField();
+			productQuantityFormattedTextField = new JFormattedTextField(new NumberFormatter());
 			GridBagConstraints gbc_productQuantityFormattedTextField = new GridBagConstraints();
 			gbc_productQuantityFormattedTextField.insets = new Insets(0, 0, 5, 5);
 			gbc_productQuantityFormattedTextField.fill = GridBagConstraints.HORIZONTAL;
@@ -261,7 +262,7 @@ public class OrderJPanel extends JPanel {
 			gbc_productUnitPriceLabel.gridy = 1;
 			productsPanel.add(productUnitPriceLabel, gbc_productUnitPriceLabel);
 
-			productUnitPriceFormattedTextField = new JFormattedTextField();
+			productUnitPriceFormattedTextField = new JFormattedTextField(new NumberFormatter());
 			GridBagConstraints gbc_productUnitPriceFormattedTextField = new GridBagConstraints();
 			gbc_productUnitPriceFormattedTextField.insets = new Insets(0, 0, 5, 0);
 			gbc_productUnitPriceFormattedTextField.fill = GridBagConstraints.HORIZONTAL;
@@ -287,7 +288,7 @@ public class OrderJPanel extends JPanel {
 						public void actionPerformed(ActionEvent e) {
 
 							JOptionPane.showMessageDialog(getParent(),
-									order.getOwner() + "\n" + order.getClient() + "\n"
+									"Owner: " + order.getOwner() + "\nClient: " + order.getClient() + "\n"
 											+ Arrays.toString(order.getProducts().getProducts().toArray()),
 									"", JOptionPane.WARNING_MESSAGE);
 						}
@@ -358,12 +359,12 @@ public class OrderJPanel extends JPanel {
 
 	}
 
-	private void setOwner() {
+	public void setOwner() {
 
-		Person person = personPersistence.getById(Order.OWNER_DEFAULT_ID);
-		if (person != null) {
-			System.out.println("Seting owner: " + person);
-			order.setOwner(person);
+		Person newOwner = personPersistence.getById(Order.OWNER_DEFAULT_ID);
+		if (newOwner != null) {
+			System.out.println("Seting owner: " + newOwner);
+			order.setOwner(newOwner);
 			owner = order.getOwner();
 			initDataBindings();
 		}
@@ -372,6 +373,7 @@ public class OrderJPanel extends JPanel {
 	public void setClient(Person client) {
 
 		if (client != null) {
+			System.out.println("Seting client: " + client);
 			order.setClient(client);
 			client = order.getClient();
 			initDataBindings();
@@ -396,24 +398,25 @@ public class OrderJPanel extends JPanel {
 				personBeanProperty, ownerNameTextField, jTextFieldBeanProperty);
 		autoBinding.bind();
 		//
-		BeanProperty<Person, Integer> personBeanProperty_1 = BeanProperty.create("CNPJ");
+		BeanProperty<Person, String> personBeanProperty_1 = BeanProperty.create("cnpj");
 		BeanProperty<JTextField, String> jTextFieldBeanProperty_1 = BeanProperty.create("text");
-		AutoBinding<Person, Integer, JTextField, String> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ, owner,
+		AutoBinding<Person, String, JTextField, String> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ, owner,
 				personBeanProperty_1, ownerCNPJTextField, jTextFieldBeanProperty_1);
 		autoBinding_1.bind();
 		//
-		BeanProperty<Person, Integer> personBeanProperty_2 = BeanProperty.create("IE");
+		BeanProperty<Person, String> personBeanProperty_2 = BeanProperty.create("ie");
 		BeanProperty<JTextField, String> jTextFieldBeanProperty_2 = BeanProperty.create("text");
-		AutoBinding<Person, Integer, JTextField, String> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ, owner,
+		AutoBinding<Person, String, JTextField, String> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ, owner,
 				personBeanProperty_2, ownerIETextField, jTextFieldBeanProperty_2);
 		autoBinding_2.bind();
 		//
+		BeanProperty<Person, String> personBeanProperty_3 = BeanProperty.create("name");
 		BeanProperty<JTextField, String> jTextFieldBeanProperty_3 = BeanProperty.create("text");
 		AutoBinding<Person, String, JTextField, String> autoBinding_3 = Bindings.createAutoBinding(UpdateStrategy.READ, client,
-				personBeanProperty, clientNameTextField, jTextFieldBeanProperty_3);
+				personBeanProperty_3, clientNameTextField, jTextFieldBeanProperty_3);
 		autoBinding_3.bind();
 		//
-		ELProperty<Person, Object> personEvalutionProperty = ELProperty.create("CNPJ: ${CNPJ} IE: ${IE} CPF: ${CPF} RG: ${RG}");
+		ELProperty<Person, Object> personEvalutionProperty = ELProperty.create("CNPJ: ${cnpj} IE: ${ie} CPF: ${cpf} RG: ${rg}");
 		BeanProperty<JTextField, String> jTextFieldBeanProperty_4 = BeanProperty.create("text");
 		AutoBinding<Person, Object, JTextField, String> autoBinding_4 = Bindings.createAutoBinding(UpdateStrategy.READ, client,
 				personEvalutionProperty, clientDocsTextField, jTextFieldBeanProperty_4);

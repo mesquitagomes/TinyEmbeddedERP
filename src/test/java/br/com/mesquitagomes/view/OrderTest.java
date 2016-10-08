@@ -165,7 +165,7 @@ public class OrderTest extends JFrame {
 
 				Person person = new Person();
 				person.setName("Ferramentaria MG");
-				person.setCNPJ(123456789);
+				person.setCnpj("123456789");
 				order.setOwner(person);
 				initDataBindings();
 			}

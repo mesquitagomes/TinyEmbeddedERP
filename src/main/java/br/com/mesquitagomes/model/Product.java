@@ -38,8 +38,8 @@ public class Product extends AbstractModel implements Serializable {
 		double totalPriceOld = getTotalPrice();
 		int oldValue = this.quantity;
 		this.quantity = quantity;
-		firePropertyChange(ProductColumns.QUANTITY.getName(), oldValue, this.quantity);
-		firePropertyChange(ProductColumns.TOTAL_PRICE.getName(), totalPriceOld, getTotalPrice());
+		firePropertyChange(ProductPropertyChangeEnum.quantity.name(), oldValue, this.quantity);
+		firePropertyChange(ProductPropertyChangeEnum.totalPrice.name(), totalPriceOld, getTotalPrice());
 	}
 
 	public Double getUnitPrice() {
@@ -52,8 +52,8 @@ public class Product extends AbstractModel implements Serializable {
 		double totalPriceOld = getTotalPrice();
 		double oldValue = this.unitPrice;
 		this.unitPrice = unitPrice;
-		firePropertyChange(ProductColumns.UNIT_PRICE.getName(), oldValue, this.unitPrice);
-		firePropertyChange(ProductColumns.TOTAL_PRICE.getName(), totalPriceOld, getTotalPrice());
+		firePropertyChange(ProductPropertyChangeEnum.unitPrice.name(), oldValue, this.unitPrice);
+		firePropertyChange(ProductPropertyChangeEnum.totalPrice.name(), totalPriceOld, getTotalPrice());
 	}
 
 	public Double getTotalPrice() {

@@ -22,30 +22,34 @@ public class MainJFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
+	private static MainJFrame INSTANCE;
+
 	private PersistenceFactory persistenceFactory;
 	private JMenuItem mntmPerson;
 	private JTabbedPane centerTabbedPane;
 	private PersonJPanel personPanel;
 	private OrderJPanel orderPanel;
 
-	/**
-	 * Create the application.
-	 */
-	public MainJFrame(PersistenceFactory persistenceFactory) {
+	public static MainJFrame getInstance(PersistenceFactory newPersistenceFactory) {
 
-		this.persistenceFactory = persistenceFactory;
+		if (INSTANCE == null && newPersistenceFactory != null) INSTANCE = new MainJFrame(newPersistenceFactory);
+
+		return INSTANCE;
+	}
+
+	private MainJFrame(PersistenceFactory newPersistenceFactory) {
+
+		persistenceFactory = newPersistenceFactory;
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 
-		setTitle("TinyEmbeddedERP - by Marcel Mesquita Gomes");
-		setBounds(100, 100, 800, 700);
+		setTitle("TinyEmbeddedERP v0.0.1 - by Marcel Mesquita Gomes");
+		setBounds(100, 100, 850, 650);
 		setMinimumSize(getSize());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		addWindowListener(new java.awt.event.WindowAdapter() {
 
 			public void windowClosing(java.awt.event.WindowEvent e) {
@@ -142,24 +146,29 @@ public class MainJFrame extends JFrame {
 
 		initDataBindings();
 
+		addNewOrderButtonActionListener();
+
 	}
 
-	public void newOrder(Person client) {
+	private void addNewOrderButtonActionListener() {
 
-		personPanel.addNewOrderActionListener(new ActionListener() {
+		personPanel.addNewOrderButtonActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				Person person = personPanel.getSelectedPerson();
 
-				if (person == null) JOptionPane.showMessageDialog(getParent(), "Select a person.", "", JOptionPane.WARNING_MESSAGE);
-				else {
+				if (person == null) {
+					JOptionPane.showMessageDialog(getParent(), "Select a person.", "", JOptionPane.WARNING_MESSAGE);
+				} else {
+					orderPanel.setOwner();
 					orderPanel.setClient(person);
-					orderPanel.setFocusable(true);
+					centerTabbedPane.setSelectedComponent(orderPanel);
 				}
 			}
 		});
+		personPanel.repaint();
 	}
 
 	public void exitProcedure() {

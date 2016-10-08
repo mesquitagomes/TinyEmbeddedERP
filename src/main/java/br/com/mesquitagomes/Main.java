@@ -17,8 +17,7 @@ public class Main {
 
 				try {
 
-					MainJFrame window = new MainJFrame(persistenceFactory);
-					window.setLocationRelativeTo(null);
+					MainJFrame window = MainJFrame.getInstance(persistenceFactory);
 					window.setVisible(true);
 
 				} catch (Exception e) {

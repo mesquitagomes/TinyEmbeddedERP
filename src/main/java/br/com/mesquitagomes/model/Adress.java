@@ -26,37 +26,47 @@ public class Adress extends AbstractModel implements Serializable {
 	@JoinColumn(name = "person_id", nullable = false)
 	private Person person;
 	@Basic
-	@Column(name = "zipcode", nullable = false)
-	private Integer zipcode;
+	@Column(name = "zipcode", length = 20)
+	private String zipcode;
 	@Basic
-	@Column(name = "adress", length = 200, nullable = false)
+	@Column(name = "adress", length = 200)
 	private String adress;
 	@Basic
-	@Column(name = "number", nullable = false)
+	@Column(name = "number")
 	private Integer number;
 	@Basic
-	@Column(name = "complement", length = 200, nullable = false)
+	@Column(name = "complement", length = 100)
 	private String complement;
 	@Basic
-	@Column(name = "city", length = 100, nullable = false)
+	@Column(name = "district", length = 100)
+	private String district;
+	@Basic
+	@Column(name = "city", length = 100)
 	private String city;
 	@Basic
-	@Column(name = "region", length = 100, nullable = false)
+	@Column(name = "region", length = 100)
 	private String region;
 	@Basic
-	@Column(name = "country", length = 100, nullable = false)
+	@Column(name = "country", length = 100)
 	private String country;
 
-	public enum AdressColumns {
+	public enum AdressColumnsEnum {
 
-		id(), person_id(), zipcode(), adress(), number(), complement(), city(), region(), country();
+		id(), person_id(), zipcode(), adress(), number(), complement(), district(), city(), region(), country();
 
 	}
 
 	public enum AdressPropertyChangeEnum {
 
-		id(), person(), zipcode(), adress(), number(), complement(), city(), region(), country();
+		id(), person(), zipcode(), adress(), number(), complement(), district(), city(), region(), country();
 
+	}
+
+	public Adress() {}
+
+	public Adress(Person person) {
+
+		setPerson(person);
 	}
 
 	public Integer getId() {
@@ -83,14 +93,14 @@ public class Adress extends AbstractModel implements Serializable {
 		firePropertyChange(AdressPropertyChangeEnum.person.name(), oldValue, this.person);
 	}
 
-	public Integer getZipcode() {
+	public String getZipcode() {
 
 		return zipcode;
 	}
 
-	public void setZipcode(Integer zipcode) {
+	public void setZipcode(String zipcode) {
 
-		Integer oldValue = this.zipcode;
+		String oldValue = this.zipcode;
 		this.zipcode = zipcode;
 		firePropertyChange(AdressPropertyChangeEnum.zipcode.name(), oldValue, this.zipcode);
 	}
@@ -114,7 +124,6 @@ public class Adress extends AbstractModel implements Serializable {
 
 	public void setNumber(Integer number) {
 
-		this.number = number;
 		Integer oldValue = this.number;
 		this.number = number;
 		firePropertyChange(AdressPropertyChangeEnum.number.name(), oldValue, this.number);
@@ -130,6 +139,18 @@ public class Adress extends AbstractModel implements Serializable {
 		String oldValue = this.complement;
 		this.complement = complement;
 		firePropertyChange(AdressPropertyChangeEnum.complement.name(), oldValue, this.complement);
+	}
+
+	public String getDistrict() {
+
+		return district;
+	}
+
+	public void setDistrict(String district) {
+
+		String oldValue = this.district;
+		this.district = district;
+		firePropertyChange(AdressPropertyChangeEnum.district.name(), oldValue, this.district);
 	}
 
 	public String getCity() {

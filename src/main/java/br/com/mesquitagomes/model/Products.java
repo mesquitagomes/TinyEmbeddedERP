@@ -7,9 +7,10 @@ public class Products extends AbstractModel {
 
 	protected List<Product> products = new ArrayList<Product>();
 
-	public String getPropertyChangeName() {
+	public enum ProductsPropertyChangeEnum {
 
-		return "products";
+		products();
+
 	}
 
 	public List<Product> getProducts() {
@@ -21,12 +22,7 @@ public class Products extends AbstractModel {
 
 		List<Product> oldValue = this.products;
 		this.products = new ArrayList<Product>(products);
-		firePropertyChange(getPropertyChangeName(), oldValue, this.products);
-	}
-
-	public int getProductsCount() {
-
-		return products.size();
+		firePropertyChange(ProductsPropertyChangeEnum.products.name(), oldValue, this.products);
 	}
 
 	public void addProduct(Product product) {
@@ -34,7 +30,7 @@ public class Products extends AbstractModel {
 		List<Product> oldValue = products;
 		products = new ArrayList<Product>(products);
 		products.add(product);
-		firePropertyChange(getPropertyChangeName(), oldValue, products);
+		firePropertyChange(ProductsPropertyChangeEnum.products.name(), oldValue, products);
 	}
 
 	public void removeProduct(Product product) {
@@ -43,8 +39,20 @@ public class Products extends AbstractModel {
 		List<Product> oldValue = products;
 		products = new ArrayList<Product>(products);
 		products.remove(product);
-		firePropertyChange(getPropertyChangeName(), oldValue, products);
+		firePropertyChange(ProductsPropertyChangeEnum.products.name(), oldValue, products);
 		firePropertyChange("totalPrice", totalPriceOld, getTotalPrice());
+	}
+
+	public Product getProduct(int index) {
+
+		Product product = null;
+		if (index >= 0 && index < products.size()) product = products.get(index);
+		return product;
+	}
+
+	public int getProductsCount() {
+
+		return products.size();
 	}
 
 	public Double getTotalPrice() {

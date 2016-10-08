@@ -7,6 +7,12 @@ public class Persons extends AbstractModel {
 
 	protected List<Person> persons = new ArrayList<Person>();
 
+	public enum PersonsPropertyChangeEnum {
+
+		persons();
+
+	}
+
 	public List<Person> getPersons() {
 
 		return persons;
@@ -16,12 +22,7 @@ public class Persons extends AbstractModel {
 
 		List<Person> oldValue = this.persons;
 		this.persons = new ArrayList<Person>(persons);
-		firePropertyChange(getPropertyChangeName(), oldValue, this.persons);
-	}
-
-	public int getPersonsCount() {
-
-		return persons.size();
+		firePropertyChange(PersonsPropertyChangeEnum.persons.name(), oldValue, this.persons);
 	}
 
 	public void addPerson(Person person) {
@@ -29,7 +30,7 @@ public class Persons extends AbstractModel {
 		List<Person> oldValue = persons;
 		persons = new ArrayList<Person>(persons);
 		persons.add(person);
-		firePropertyChange(getPropertyChangeName(), oldValue, persons);
+		firePropertyChange(PersonsPropertyChangeEnum.persons.name(), oldValue, persons);
 	}
 
 	public void removePerson(Person person) {
@@ -37,21 +38,19 @@ public class Persons extends AbstractModel {
 		List<Person> oldValue = persons;
 		persons = new ArrayList<Person>(persons);
 		persons.remove(person);
-		firePropertyChange(getPropertyChangeName(), oldValue, persons);
+		firePropertyChange(PersonsPropertyChangeEnum.persons.name(), oldValue, persons);
 	}
 
 	public Person getPerson(int index) {
 
 		Person person = null;
-
 		if (index >= 0 && index < persons.size()) person = persons.get(index);
-
 		return person;
 	}
 
-	public String getPropertyChangeName() {
+	public int getPersonsCount() {
 
-		return "persons";
+		return persons.size();
 	}
 
 }

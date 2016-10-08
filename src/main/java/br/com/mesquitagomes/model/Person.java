@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,29 +25,29 @@ public class Person extends AbstractModel implements Serializable {
 	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
 	@Basic
-	@Column(name = "value", length = 200, nullable = false)
+	@Column(name = "name", length = 200, nullable = false)
 	private String name;
 	@Basic
-	@Column(name = "cnpj")
-	private Integer cnpj;
+	@Column(name = "cnpj", length = 20)
+	private String cnpj;
 	@Basic
-	@Column(name = "ie")
-	private Integer ie;
+	@Column(name = "ie", length = 20)
+	private String ie;
 	@Basic
-	@Column(name = "cpf")
-	private Integer cpf;
+	@Column(name = "cpf", length = 20)
+	private String cpf;
 	@Basic
-	@Column(name = "rg", length = 15)
+	@Column(name = "rg", length = 20)
 	private String rg;
 	@Basic
 	@Column(name = "email")
 	private String email;
-	@OneToMany(mappedBy = "person")
-	private List<Phone> phones;
-	@OneToMany(mappedBy = "person")
-	private List<Adress> adresses;
+	@OneToMany(mappedBy = "person", cascade = { CascadeType.ALL })
+	private List<Phone> phones = new ArrayList<>();
+	@OneToMany(mappedBy = "person", cascade = { CascadeType.ALL })
+	private List<Adress> adresses = new ArrayList<>();
 
-	public enum PersonColumns {
+	public enum PersonColumnsEnum {
 
 		id(), name(), cpf(), rg(), cnpj(), ie(), email();
 
@@ -82,40 +83,46 @@ public class Person extends AbstractModel implements Serializable {
 		firePropertyChange(PersonPropertyChangeEnum.name.name(), oldValue, this.name);
 	}
 
-	public Integer getCnpj() {
+	public String getCnpj() {
 
 		return cnpj;
 	}
 
-	public void setCnpj(Integer cnpj) {
+	public void setCnpj(String cnpj) {
 
-		Integer oldValue = this.cnpj;
-		this.cnpj = cnpj;
-		firePropertyChange(PersonPropertyChangeEnum.cnpj.name(), oldValue, this.cnpj);
+		if (cnpj.matches(".*\\d+.*")) {
+			String oldValue = this.cnpj;
+			this.cnpj = cnpj;
+			firePropertyChange(PersonPropertyChangeEnum.cnpj.name(), oldValue, this.cnpj);
+		}
 	}
 
-	public Integer getIe() {
+	public String getIe() {
 
 		return ie;
 	}
 
-	public void setIe(Integer ie) {
+	public void setIe(String ie) {
 
-		Integer oldValue = this.ie;
-		this.ie = ie;
-		firePropertyChange(PersonPropertyChangeEnum.ie.name(), oldValue, this.ie);
+		if (ie.matches(".*\\d+.*")) {
+			String oldValue = this.ie;
+			this.ie = ie;
+			firePropertyChange(PersonPropertyChangeEnum.ie.name(), oldValue, this.ie);
+		}
 	}
 
-	public Integer getCpf() {
+	public String getCpf() {
 
 		return cpf;
 	}
 
-	public void setCpf(Integer cpf) {
+	public void setCpf(String cpf) {
 
-		Integer oldValue = this.cpf;
-		this.cpf = cpf;
-		firePropertyChange(PersonPropertyChangeEnum.cpf.name(), oldValue, this.cpf);
+		if (cpf.matches(".*\\d+.*")) {
+			String oldValue = this.cpf;
+			this.cpf = cpf;
+			firePropertyChange(PersonPropertyChangeEnum.cpf.name(), oldValue, this.cpf);
+		}
 	}
 
 	public String getRg() {
@@ -125,9 +132,11 @@ public class Person extends AbstractModel implements Serializable {
 
 	public void setRg(String rg) {
 
-		String oldValue = this.rg;
-		this.rg = rg;
-		firePropertyChange(PersonPropertyChangeEnum.rg.name(), oldValue, this.rg);
+		if (rg.matches(".*\\d+.*")) {
+			String oldValue = this.rg;
+			this.rg = rg;
+			firePropertyChange(PersonPropertyChangeEnum.rg.name(), oldValue, this.rg);
+		}
 	}
 
 	public String getEmail() {
@@ -168,6 +177,13 @@ public class Person extends AbstractModel implements Serializable {
 		firePropertyChange(PersonPropertyChangeEnum.phones.name(), oldValue, phones);
 	}
 
+	public Phone getPhone(int index) {
+
+		Phone phone = null;
+		if (index >= 0 && index < phones.size()) phone = phones.get(index);
+		return phone;
+	}
+
 	public List<Adress> getAdresses() {
 
 		return adresses;
@@ -192,6 +208,13 @@ public class Person extends AbstractModel implements Serializable {
 		adresses = new ArrayList<Adress>(adresses);
 		phones.remove(adress);
 		firePropertyChange(PersonPropertyChangeEnum.adresses.name(), oldValue, adresses);
+	}
+
+	public Adress getAdress(int index) {
+
+		Adress adress = null;
+		if (index >= 0 && index < adresses.size()) adress = adresses.get(index);
+		return adress;
 	}
 
 	public String toString() {

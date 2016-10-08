@@ -10,7 +10,7 @@ public class Order extends AbstractModel {
 
 	public enum OrderPropertyChangeEnum {
 
-		owner(), client(), products(); // TODO
+		owner(), client(), products();
 
 	}
 
@@ -23,7 +23,7 @@ public class Order extends AbstractModel {
 
 		Person oldValue = this.owner;
 		this.owner = owner;
-		firePropertyChange("owner", oldValue, this.owner);
+		firePropertyChange(OrderPropertyChangeEnum.owner.name(), oldValue, this.owner);
 	}
 
 	public Person getClient() {
@@ -35,7 +35,7 @@ public class Order extends AbstractModel {
 
 		Person oldValue = this.client;
 		this.client = client;
-		firePropertyChange("client", oldValue, this.client);
+		firePropertyChange(OrderPropertyChangeEnum.client.name(), oldValue, this.client);
 	}
 
 	public Products getProducts() {
@@ -47,7 +47,7 @@ public class Order extends AbstractModel {
 
 		Products oldValue = this.products;
 		this.products = products;
-		firePropertyChange("products", oldValue, this.products);
+		firePropertyChange(OrderPropertyChangeEnum.products.name(), oldValue, this.products);
 	}
 
 	public String toString() {

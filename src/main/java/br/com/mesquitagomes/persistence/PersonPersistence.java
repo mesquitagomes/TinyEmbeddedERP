@@ -26,7 +26,7 @@ public class PersonPersistence extends AbstractPersistence<Person> {
 	@Override
 	public List<Person> getAll() {
 
-		return getByQuery(getSELECT());
+		return getByQuery(SELECT);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -47,13 +47,13 @@ public class PersonPersistence extends AbstractPersistence<Person> {
 		return SELECT;
 	}
 
-	public List<Person> getByDocsOR(Integer cpf, Integer rg, Integer cnpj, Integer ie) {
+	public List<Person> getByDocsLikeOr(Integer cpf, Integer rg, Integer cnpj, Integer ie) {
 
 		String query = SELECT + " where ";
-		query += PersonPropertyChangeEnum.CPF.getValue() + " like ?";
-		query += "or " + PersonPropertyChangeEnum.RG.getValue() + " like ?";
-		query += "or " + PersonPropertyChangeEnum.CNPJ.getValue() + " like ?";
-		query += "or " + PersonPropertyChangeEnum.IE.getValue() + " like ?";
+		query += PersonPropertyChangeEnum.cpf.name() + " like ?";
+		query += "or " + PersonPropertyChangeEnum.rg.name() + " like ?";
+		query += "or " + PersonPropertyChangeEnum.cnpj.name() + " like ?";
+		query += "or " + PersonPropertyChangeEnum.ie.name() + " like ?";
 
 		return getByQuery(query, cpf + "%", rg + "%", cnpj + "%", ie + "%");
 	}

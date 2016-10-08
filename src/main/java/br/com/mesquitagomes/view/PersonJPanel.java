@@ -24,14 +24,16 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.beansbinding.ELProperty;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
 import main.java.br.com.mesquitagomes.model.Adress;
 import main.java.br.com.mesquitagomes.model.Person;
-import main.java.br.com.mesquitagomes.model.Person.PersonColumns;
+import main.java.br.com.mesquitagomes.model.Person.PersonColumnsEnum;
 import main.java.br.com.mesquitagomes.model.Persons;
 import main.java.br.com.mesquitagomes.model.Phone;
+import main.java.br.com.mesquitagomes.model.validation.PersonValidator;
 import main.java.br.com.mesquitagomes.persistence.PersistenceFactory;
 import main.java.br.com.mesquitagomes.persistence.PersonPersistence;
 
@@ -44,41 +46,43 @@ public class PersonJPanel extends JPanel {
 	private BindingGroup m_bindingGroup;
 	private Person person = new Person();
 	private Persons persons = new Persons();
+	private PhoneJDialog phoneDialog;
+	private AdressJDialog adressDialog;
 	private JTextField idJTextField;
 	private JTextField nameJTextField;
 	private JFormattedTextField cnpjJFormattedTextField;
 	private JFormattedTextField ieJFormattedTextField;
 	private JFormattedTextField cpfJFormattedTextField;
 	private JFormattedTextField rgJFormattedTextField;
-	private JButton btnSavePerson;
+	private JButton personSaveButton;
 	private JPanel personButtonPanel;
-	private JButton btnDeletePerson;
+	private JButton personDeleteButton;
 	private JTable phonesTable;
 	private JPanel phonesButtonPanel;
-	private JButton btnNewPhone;
-	private JButton btnEditPhone;
-	private JButton btnDeletePhone;
+	private JButton phoneNewButton;
+	private JButton phoneEditButton;
+	private JButton phoneDeleteButton;
 	private JTable adressesTable;
 	private JPanel adressesButtonPanel;
-	private JButton btnNewAdress;
-	private JButton btnEditAdress;
-	private JButton btnDeleteAdress;
+	private JButton adressNewButton;
+	private JButton adressEditButton;
+	private JButton adressDeleteButton;
 	private JPanel phonesPanel;
 	private JPanel adressesPanel;
-	private JButton btnNewPerson;
+	private JButton personNewButton;
 	private JLabel emailLable;
 	private JFormattedTextField emailJFormattedTextField;
 	private JPanel personPanel;
 	private JSplitPane splitPane;
 	private JPanel personsPanel;
 	private JTextField findTextField;
-	private JButton btnFind;
-	private JButton btnNewOrder;
+	private JButton personFindButton;
+	private JButton orderNewButton;
 	private JScrollPane personsScrollPane;
 	private JTable personsTable;
 	private JScrollPane adressesScrollPane;
 	private JScrollPane phonesScrollPane;
-	private JButton btnEdit;
+	private JButton personEditButton;
 
 	public PersonJPanel(PersistenceFactory persistenceFactory, Person newPerson) {
 
@@ -180,7 +184,7 @@ public class PersonJPanel extends JPanel {
 				gbc_cnpjJLabel.gridy = 2;
 				personPanel.add(cnpjJLabel, gbc_cnpjJLabel);
 
-				cnpjJFormattedTextField = new JFormattedTextField();
+				cnpjJFormattedTextField = new JFormattedTextField(PersonValidator.getCnpjMaskFormatter());
 				GridBagConstraints gbc_cnpjJFormattedTextField = new GridBagConstraints();
 				gbc_cnpjJFormattedTextField.fill = GridBagConstraints.BOTH;
 				gbc_cnpjJFormattedTextField.insets = new Insets(0, 0, 5, 5);
@@ -197,7 +201,7 @@ public class PersonJPanel extends JPanel {
 				gbc_ieLabel.gridy = 2;
 				personPanel.add(ieLabel, gbc_ieLabel);
 
-				ieJFormattedTextField = new JFormattedTextField();
+				ieJFormattedTextField = new JFormattedTextField(PersonValidator.getIeMaskFormatter());
 				GridBagConstraints gbc_ieJFormattedTextField = new GridBagConstraints();
 				gbc_ieJFormattedTextField.fill = GridBagConstraints.BOTH;
 				gbc_ieJFormattedTextField.insets = new Insets(0, 0, 5, 0);
@@ -214,7 +218,7 @@ public class PersonJPanel extends JPanel {
 				gbc_cpfLabel.gridy = 3;
 				personPanel.add(cpfLabel, gbc_cpfLabel);
 
-				cpfJFormattedTextField = new JFormattedTextField();
+				cpfJFormattedTextField = new JFormattedTextField(PersonValidator.getCpfMaskFormatter());
 				GridBagConstraints gbc_cpfJFormattedTextField = new GridBagConstraints();
 				gbc_cpfJFormattedTextField.fill = GridBagConstraints.BOTH;
 				gbc_cpfJFormattedTextField.insets = new Insets(0, 0, 5, 5);
@@ -231,7 +235,7 @@ public class PersonJPanel extends JPanel {
 				gbc_rgLabel.gridy = 3;
 				personPanel.add(rgLabel, gbc_rgLabel);
 
-				rgJFormattedTextField = new JFormattedTextField();
+				rgJFormattedTextField = new JFormattedTextField(PersonValidator.getRgMaskFormatter());
 				GridBagConstraints gbc_rgJFormattedTextField = new GridBagConstraints();
 				gbc_rgJFormattedTextField.fill = GridBagConstraints.BOTH;
 				gbc_rgJFormattedTextField.insets = new Insets(0, 0, 5, 0);
@@ -265,14 +269,44 @@ public class PersonJPanel extends JPanel {
 					gbc_panel_1.gridy = 0;
 					phonesPanel.add(phonesButtonPanel, gbc_panel_1);
 					{
-						btnNewPhone = new JButton("New");
-						phonesButtonPanel.add(btnNewPhone);
+						phoneNewButton = new JButton("New");
+						phoneNewButton.addActionListener(new ActionListener() {
 
-						btnEditPhone = new JButton("Edit");
-						phonesButtonPanel.add(btnEditPhone);
+							public void actionPerformed(ActionEvent e) {
 
-						btnDeletePhone = new JButton("Delete");
-						phonesButtonPanel.add(btnDeletePhone);
+								Phone phone = new Phone(person);
+								person.addPhone(phone);
+								phoneDialog = new PhoneJDialog(MainJFrame.getInstance(null), phone);
+								phoneDialog.setVisible(true);
+								phonesTable.repaint();
+							}
+						});
+						phonesButtonPanel.add(phoneNewButton);
+
+						phoneEditButton = new JButton("Edit");
+						phoneEditButton.addActionListener(new ActionListener() {
+
+							public void actionPerformed(ActionEvent e) {
+
+								Phone phone = person.getPhone(phonesTable.getSelectedRow());
+								phoneDialog = new PhoneJDialog(MainJFrame.getInstance(null), phone);
+								phoneDialog.setVisible(true);
+								phonesTable.repaint();
+							}
+						});
+						phonesButtonPanel.add(phoneEditButton);
+
+						phoneDeleteButton = new JButton("Delete");
+						phoneDeleteButton.addActionListener(new ActionListener() {
+
+							public void actionPerformed(ActionEvent e) {
+
+								Phone phone = person.getPhone(phonesTable.getSelectedRow());
+								person.removePhone(phone);
+								phonesTable.repaint();
+							}
+						});
+						phonesButtonPanel.add(phoneDeleteButton);
 					}
 					phonesScrollPane = new JScrollPane();
 					GridBagConstraints gbc_phoneScrollPane = new GridBagConstraints();
@@ -311,14 +345,44 @@ public class PersonJPanel extends JPanel {
 					gbc_adressesButtonPanel.gridy = 0;
 					adressesPanel.add(adressesButtonPanel, gbc_adressesButtonPanel);
 					{
-						btnNewAdress = new JButton("New");
-						adressesButtonPanel.add(btnNewAdress);
+						adressNewButton = new JButton("New");
+						adressNewButton.addActionListener(new ActionListener() {
 
-						btnEditAdress = new JButton("Edit");
-						adressesButtonPanel.add(btnEditAdress);
+							public void actionPerformed(ActionEvent e) {
 
-						btnDeleteAdress = new JButton("Delete");
-						adressesButtonPanel.add(btnDeleteAdress);
+								Adress adress = new Adress(person);
+								person.addAdress(adress);
+								adressDialog = new AdressJDialog(MainJFrame.getInstance(null), adress);
+								adressDialog.setVisible(true);
+								adressesTable.repaint();
+							}
+						});
+						adressesButtonPanel.add(adressNewButton);
+
+						adressEditButton = new JButton("Edit");
+						adressEditButton.addActionListener(new ActionListener() {
+
+							public void actionPerformed(ActionEvent e) {
+
+								Adress adress = person.getAdress(adressesTable.getSelectedRow());
+								adressDialog = new AdressJDialog(MainJFrame.getInstance(null), adress);
+								adressDialog.setVisible(true);
+								adressesTable.repaint();
+							}
+						});
+						adressesButtonPanel.add(adressEditButton);
+
+						adressDeleteButton = new JButton("Delete");
+						adressDeleteButton.addActionListener(new ActionListener() {
+
+							public void actionPerformed(ActionEvent e) {
+
+								Adress adress = person.getAdress(adressesTable.getSelectedRow());
+								person.removeAdress(adress);
+								adressesTable.repaint();
+							}
+						});
+						adressesButtonPanel.add(adressDeleteButton);
 					}
 
 					adressesScrollPane = new JScrollPane();
@@ -327,8 +391,10 @@ public class PersonJPanel extends JPanel {
 					gbc_adressesScrollPane.gridx = 0;
 					gbc_adressesScrollPane.gridy = 1;
 					adressesPanel.add(adressesScrollPane, gbc_adressesScrollPane);
-					adressesTable = new JTable();
-					adressesScrollPane.setViewportView(adressesTable);
+					{
+						adressesTable = new JTable();
+						adressesScrollPane.setViewportView(adressesTable);
+					}
 				}
 				personButtonPanel = new JPanel();
 				GridBagConstraints gbc_personButtonPanel = new GridBagConstraints();
@@ -341,8 +407,8 @@ public class PersonJPanel extends JPanel {
 				flowLayout.setAlignment(FlowLayout.RIGHT);
 				{
 
-					btnSavePerson = new JButton("Save");
-					btnSavePerson.addActionListener(new ActionListener() {
+					personSaveButton = new JButton("Save");
+					personSaveButton.addActionListener(new ActionListener() {
 
 						public void actionPerformed(ActionEvent e) {
 
@@ -352,10 +418,10 @@ public class PersonJPanel extends JPanel {
 							setPerson(person);
 						}
 					});
-					personButtonPanel.add(btnSavePerson);
+					personButtonPanel.add(personSaveButton);
 
-					btnNewPerson = new JButton("New");
-					btnNewPerson.addActionListener(new ActionListener() {
+					personNewButton = new JButton("New");
+					personNewButton.addActionListener(new ActionListener() {
 
 						public void actionPerformed(ActionEvent e) {
 
@@ -365,29 +431,16 @@ public class PersonJPanel extends JPanel {
 						}
 					});
 
-					personButtonPanel.add(btnNewPerson);
-
-					btnDeletePerson = new JButton("Delete");
-					btnDeletePerson.addActionListener(new ActionListener() {
-
-						public void actionPerformed(ActionEvent e) {
-
-							if (person != null) {
-								personPersistence.remove(person);
-								btnNewPerson.dispatchEvent(e);
-							}
-						}
-					});
-					personButtonPanel.add(btnDeletePerson);
+					personButtonPanel.add(personNewButton);
 				}
 			}
 			personsPanel = new JPanel();
 			personsPanel.setBorder(new TitledBorder(null, "Find Persons", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			splitPane.setRightComponent(personsPanel);
 			GridBagLayout gbl_personsPanel = new GridBagLayout();
-			gbl_personsPanel.columnWidths = new int[] { 81, 59, 0, 97, 0 };
+			gbl_personsPanel.columnWidths = new int[] { 81, 59, 0, 0, 97, 0 };
 			gbl_personsPanel.rowHeights = new int[] { 25, 42, 0 };
-			gbl_personsPanel.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+			gbl_personsPanel.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 			gbl_personsPanel.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 			personsPanel.setLayout(gbl_personsPanel);
 			{
@@ -400,8 +453,8 @@ public class PersonJPanel extends JPanel {
 				gbc_findTextField.gridy = 0;
 				personsPanel.add(findTextField, gbc_findTextField);
 
-				btnFind = new JButton("Find");
-				btnFind.addActionListener(new ActionListener() {
+				personFindButton = new JButton("Find");
+				personFindButton.addActionListener(new ActionListener() {
 
 					public void actionPerformed(ActionEvent e) {
 
@@ -409,50 +462,66 @@ public class PersonJPanel extends JPanel {
 						String value = findTextField.getText();
 						try {
 							int val = Integer.valueOf(value);
-							newPpersons = personPersistence.getByDocsOR(val, val, val, val);
+							newPpersons = personPersistence.getByDocsLikeOr(val, val, val, val);
 							newPpersons.add(personPersistence.getById(val));
 						} catch (NumberFormatException e1) {
-							newPpersons = personPersistence.getByColumn(PersonColumns.name.name(), value);
+							newPpersons = personPersistence.getByColumn(PersonColumnsEnum.name.name(), value);
 						}
-
 						persons.setPersons(newPpersons);
 						personsTable.repaint();
 					}
 				});
-				GridBagConstraints gbc_btnFind = new GridBagConstraints();
-				gbc_btnFind.anchor = GridBagConstraints.NORTHWEST;
-				gbc_btnFind.insets = new Insets(0, 0, 5, 5);
-				gbc_btnFind.gridx = 1;
-				gbc_btnFind.gridy = 0;
-				personsPanel.add(btnFind, gbc_btnFind);
+				GridBagConstraints gbc_personFindButton = new GridBagConstraints();
+				gbc_personFindButton.anchor = GridBagConstraints.NORTHWEST;
+				gbc_personFindButton.insets = new Insets(0, 0, 5, 5);
+				gbc_personFindButton.gridx = 1;
+				gbc_personFindButton.gridy = 0;
+				personsPanel.add(personFindButton, gbc_personFindButton);
 
-				btnEdit = new JButton("Edit");
-				btnEdit.addActionListener(new ActionListener() {
+				personEditButton = new JButton("Edit");
+				personEditButton.addActionListener(new ActionListener() {
 
 					public void actionPerformed(ActionEvent e) {
 
-						Person newPerson = persons.getPersons().get(personsTable.getSelectedRow());
+						Person newPerson = persons.getPerson(personsTable.getSelectedRow());
 						setPerson(newPerson);
 					}
 				});
-				GridBagConstraints gbc_btnEdit = new GridBagConstraints();
-				gbc_btnEdit.insets = new Insets(0, 0, 5, 5);
-				gbc_btnEdit.gridx = 2;
-				gbc_btnEdit.gridy = 0;
-				personsPanel.add(btnEdit, gbc_btnEdit);
+				GridBagConstraints gbc_personEditButton = new GridBagConstraints();
+				gbc_personEditButton.insets = new Insets(0, 0, 5, 5);
+				gbc_personEditButton.gridx = 2;
+				gbc_personEditButton.gridy = 0;
+				personsPanel.add(personEditButton, gbc_personEditButton);
 
-				btnNewOrder = new JButton("New Order");
-				GridBagConstraints gbc_btnNewOrder = new GridBagConstraints();
-				gbc_btnNewOrder.anchor = GridBagConstraints.NORTHWEST;
-				gbc_btnNewOrder.insets = new Insets(0, 0, 5, 0);
-				gbc_btnNewOrder.gridx = 3;
-				gbc_btnNewOrder.gridy = 0;
-				personsPanel.add(btnNewOrder, gbc_btnNewOrder);
+				personDeleteButton = new JButton("Delete");
+				GridBagConstraints gbc_personDeleteButton = new GridBagConstraints();
+				gbc_personDeleteButton.insets = new Insets(0, 0, 5, 5);
+				gbc_personDeleteButton.gridx = 3;
+				gbc_personDeleteButton.gridy = 0;
+				personsPanel.add(personDeleteButton, gbc_personDeleteButton);
+				personDeleteButton.addActionListener(new ActionListener() {
+
+					public void actionPerformed(ActionEvent e) {
+
+						Person newPerson = persons.getPerson(personsTable.getSelectedRow());
+						personPersistence.remove(newPerson);
+						persons.removePerson(newPerson);
+						personsTable.repaint();
+					}
+				});
+
+				orderNewButton = new JButton("New Order");
+				GridBagConstraints gbc_orderNewButton = new GridBagConstraints();
+				gbc_orderNewButton.anchor = GridBagConstraints.NORTHWEST;
+				gbc_orderNewButton.insets = new Insets(0, 0, 5, 0);
+				gbc_orderNewButton.gridx = 4;
+				gbc_orderNewButton.gridy = 0;
+				personsPanel.add(orderNewButton, gbc_orderNewButton);
 
 				personsScrollPane = new JScrollPane();
 				GridBagConstraints gbc_personsScrollPane = new GridBagConstraints();
 				gbc_personsScrollPane.fill = GridBagConstraints.BOTH;
-				gbc_personsScrollPane.gridwidth = 4;
+				gbc_personsScrollPane.gridwidth = 5;
 				gbc_personsScrollPane.gridx = 0;
 				gbc_personsScrollPane.gridy = 1;
 				personsPanel.add(personsScrollPane, gbc_personsScrollPane);
@@ -486,15 +555,13 @@ public class PersonJPanel extends JPanel {
 				m_bindingGroup.unbind();
 				m_bindingGroup = null;
 			}
-			if (person != null) {
-				m_bindingGroup = initDataBindings();
-			}
+			if (person != null) m_bindingGroup = initDataBindings();
 		}
 	}
 
-	public void addNewOrderActionListener(ActionListener action) {
+	public void addNewOrderButtonActionListener(ActionListener action) {
 
-		btnNewOrder.addActionListener(action);
+		orderNewButton.addActionListener(action);
 	}
 
 	public Person getSelectedPerson() {
@@ -522,21 +589,21 @@ public class PersonJPanel extends JPanel {
 				person, emailBeanProperty, emailJFormattedTextField, emailTextProperty);
 		emailAutoBinding.bind();
 		//
-		BeanProperty<Person, Integer> cnpjProperty = BeanProperty.create("cnpj");
+		BeanProperty<Person, String> cnpjProperty = BeanProperty.create("cnpj");
 		BeanProperty<JFormattedTextField, String> cnpjTextProperty = BeanProperty.create("text");
-		AutoBinding<Person, Integer, JFormattedTextField, String> cnpjAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		AutoBinding<Person, String, JFormattedTextField, String> cnpjAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
 				person, cnpjProperty, cnpjJFormattedTextField, cnpjTextProperty);
 		cnpjAutoBinding.bind();
 		//
-		BeanProperty<Person, Integer> ieProperty = BeanProperty.create("ie");
+		BeanProperty<Person, String> ieProperty = BeanProperty.create("ie");
 		BeanProperty<JFormattedTextField, String> ieTextProperty = BeanProperty.create("text");
-		AutoBinding<Person, Integer, JFormattedTextField, String> ieAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		AutoBinding<Person, String, JFormattedTextField, String> ieAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
 				person, ieProperty, ieJFormattedTextField, ieTextProperty);
 		ieAutoBinding.bind();
 		//
-		BeanProperty<Person, Integer> cpfProperty = BeanProperty.create("cpf");
+		BeanProperty<Person, String> cpfProperty = BeanProperty.create("cpf");
 		BeanProperty<JFormattedTextField, String> cpfTextProperty = BeanProperty.create("text");
-		AutoBinding<Person, Integer, JFormattedTextField, String> cpfAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		AutoBinding<Person, String, JFormattedTextField, String> cpfAutoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
 				person, cpfProperty, cpfJFormattedTextField, cpfTextProperty);
 		cpfAutoBinding.bind();
 		//
@@ -550,9 +617,6 @@ public class PersonJPanel extends JPanel {
 		JTableBinding<Phone, Person, JTable> phonesJTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, person,
 				phonesBeanProperty, phonesTable);
 		//
-		BeanProperty<Phone, Integer> phoneBeanProperty = BeanProperty.create("id");
-		phonesJTableBinding.addColumnBinding(phoneBeanProperty).setColumnName("Id");
-		//
 		BeanProperty<Phone, String> phoneBeanProperty_1 = BeanProperty.create("type");
 		phonesJTableBinding.addColumnBinding(phoneBeanProperty_1).setColumnName("Type");
 		//
@@ -562,34 +626,34 @@ public class PersonJPanel extends JPanel {
 		phonesJTableBinding.bind();
 		//
 		BeanProperty<Person, List<Adress>> adressesBeanProperty = BeanProperty.create("adresses");
-		JTableBinding<Adress, Person, JTable> adressesJTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, person,
+		JTableBinding<Adress, Person, JTable> jTableBinding = SwingBindings.createJTableBinding(UpdateStrategy.READ, person,
 				adressesBeanProperty, adressesTable);
 		//
-		BeanProperty<Adress, Integer> adressBeanProperty = BeanProperty.create("id");
-		adressesJTableBinding.addColumnBinding(adressBeanProperty).setColumnName("Id");
+		BeanProperty<Adress, String> adressBeanProperty = BeanProperty.create("adress");
+		jTableBinding.addColumnBinding(adressBeanProperty).setColumnName("Adress");
 		//
-		BeanProperty<Adress, String> adressBeanProperty_1 = BeanProperty.create("adress");
-		adressesJTableBinding.addColumnBinding(adressBeanProperty_1).setColumnName("Adress");
+		BeanProperty<Adress, Integer> adressBeanProperty_1 = BeanProperty.create("number");
+		jTableBinding.addColumnBinding(adressBeanProperty_1).setColumnName("Number");
 		//
-		BeanProperty<Adress, Integer> adressBeanProperty_2 = BeanProperty.create("number");
-		adressesJTableBinding.addColumnBinding(adressBeanProperty_2).setColumnName("Number");
+		BeanProperty<Adress, String> adressBeanProperty_2 = BeanProperty.create("complement");
+		jTableBinding.addColumnBinding(adressBeanProperty_2).setColumnName("Complement");
 		//
-		BeanProperty<Adress, String> adressBeanProperty_3 = BeanProperty.create("complement");
-		adressesJTableBinding.addColumnBinding(adressBeanProperty_3).setColumnName("Complement");
+		BeanProperty<Adress, String> adressBeanProperty_3 = BeanProperty.create("district");
+		jTableBinding.addColumnBinding(adressBeanProperty_3).setColumnName("District");
 		//
 		BeanProperty<Adress, String> adressBeanProperty_4 = BeanProperty.create("region");
-		adressesJTableBinding.addColumnBinding(adressBeanProperty_4).setColumnName("Region");
+		jTableBinding.addColumnBinding(adressBeanProperty_4).setColumnName("Region");
 		//
 		BeanProperty<Adress, String> adressBeanProperty_5 = BeanProperty.create("city");
-		adressesJTableBinding.addColumnBinding(adressBeanProperty_5).setColumnName("City");
+		jTableBinding.addColumnBinding(adressBeanProperty_5).setColumnName("City");
 		//
 		BeanProperty<Adress, String> adressBeanProperty_6 = BeanProperty.create("country");
-		adressesJTableBinding.addColumnBinding(adressBeanProperty_6).setColumnName("Country");
+		jTableBinding.addColumnBinding(adressBeanProperty_6).setColumnName("Country");
 		//
-		BeanProperty<Adress, Integer> adressBeanProperty_7 = BeanProperty.create("zipcode");
-		adressesJTableBinding.addColumnBinding(adressBeanProperty_7).setColumnName("Zip Code");
+		BeanProperty<Adress, String> adressBeanProperty_7 = BeanProperty.create("zipcode");
+		jTableBinding.addColumnBinding(adressBeanProperty_7).setColumnName("Zip Code");
 		//
-		adressesJTableBinding.bind();
+		jTableBinding.bind();
 		//
 		BeanProperty<Persons, List<Person>> personsBeanProperty = BeanProperty.create("persons");
 		JTableBinding<Person, Persons, JTable> jTableBinding_2 = SwingBindings.createJTableBinding(UpdateStrategy.READ, persons,
@@ -604,19 +668,40 @@ public class PersonJPanel extends JPanel {
 		BeanProperty<Person, String> personBeanProperty_5 = BeanProperty.create("email");
 		jTableBinding_2.addColumnBinding(personBeanProperty_5).setColumnName("Email");
 		//
-		BeanProperty<Person, Integer> personBeanProperty_6 = BeanProperty.create("CNPJ");
+		BeanProperty<Person, String> personBeanProperty_6 = BeanProperty.create("cnpj");
 		jTableBinding_2.addColumnBinding(personBeanProperty_6).setColumnName("CNPJ");
 		//
-		BeanProperty<Person, Integer> personBeanProperty_7 = BeanProperty.create("IE");
+		BeanProperty<Person, String> personBeanProperty_7 = BeanProperty.create("ie");
 		jTableBinding_2.addColumnBinding(personBeanProperty_7).setColumnName("IE");
 		//
-		BeanProperty<Person, Integer> personBeanProperty_8 = BeanProperty.create("CPF");
+		BeanProperty<Person, String> personBeanProperty_8 = BeanProperty.create("cpf");
 		jTableBinding_2.addColumnBinding(personBeanProperty_8).setColumnName("CPF");
 		//
-		BeanProperty<Person, String> personBeanProperty_9 = BeanProperty.create("RG");
+		BeanProperty<Person, String> personBeanProperty_9 = BeanProperty.create("rg");
 		jTableBinding_2.addColumnBinding(personBeanProperty_9).setColumnName("RG");
 		//
 		jTableBinding_2.bind();
+		//
+		ELProperty<JTable, Object> jTableEvalutionProperty = ELProperty.create("${selectedElement != null}");
+		BeanProperty<JButton, Boolean> jButtonBeanProperty = BeanProperty.create("enabled");
+		AutoBinding<JTable, Object, JButton, Boolean> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ, phonesTable,
+				jTableEvalutionProperty, phoneEditButton, jButtonBeanProperty);
+		autoBinding.bind();
+		//
+		ELProperty<JTable, Object> jTableEvalutionProperty_1 = ELProperty.create("${selectedElement != null}");
+		AutoBinding<JTable, Object, JButton, Boolean> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ, phonesTable,
+				jTableEvalutionProperty_1, phoneDeleteButton, jButtonBeanProperty);
+		autoBinding_1.bind();
+		//
+		ELProperty<JTable, Object> jTableEvalutionProperty_2 = ELProperty.create("${selectedElement != null}");
+		AutoBinding<JTable, Object, JButton, Boolean> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ, adressesTable,
+				jTableEvalutionProperty_2, adressEditButton, jButtonBeanProperty);
+		autoBinding_2.bind();
+		//
+		ELProperty<JTable, Object> jTableEvalutionProperty_3 = ELProperty.create("${selectedElement != null}");
+		AutoBinding<JTable, Object, JButton, Boolean> autoBinding_3 = Bindings.createAutoBinding(UpdateStrategy.READ, adressesTable,
+				jTableEvalutionProperty_3, adressDeleteButton, jButtonBeanProperty);
+		autoBinding_3.bind();
 		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//
@@ -628,8 +713,12 @@ public class PersonJPanel extends JPanel {
 		bindingGroup.addBinding(cpfAutoBinding);
 		bindingGroup.addBinding(rgAutoBinding);
 		bindingGroup.addBinding(phonesJTableBinding);
-		bindingGroup.addBinding(adressesJTableBinding);
+		bindingGroup.addBinding(jTableBinding);
 		bindingGroup.addBinding(jTableBinding_2);
+		bindingGroup.addBinding(autoBinding);
+		bindingGroup.addBinding(autoBinding_1);
+		bindingGroup.addBinding(autoBinding_2);
+		bindingGroup.addBinding(autoBinding_3);
 		return bindingGroup;
 	}
 }

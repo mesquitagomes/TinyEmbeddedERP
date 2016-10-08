@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import main.java.br.com.mesquitagomes.model.Person;
-import main.java.br.com.mesquitagomes.model.Phone;
 import main.java.br.com.mesquitagomes.model.Person.PersonPropertyChangeEnum;
+import main.java.br.com.mesquitagomes.model.Phone;
 import main.java.br.com.mesquitagomes.persistence.AbstractPersistence;
 import main.java.br.com.mesquitagomes.persistence.PersistenceFactory;
 
@@ -13,11 +13,11 @@ public class PersistenceTest {
 
 	private static PersistenceFactory persistenceFactory = PersistenceFactory.getInstance();
 
-	public static void persistPerson(String name, Integer CPF) {
+	public static void persistPerson(String name, String cpf) {
 
 		Person person = new Person();
 		person.setName(name);
-		person.setCPF(CPF);
+		person.setCpf(cpf);
 
 		AbstractPersistence<Person> persistence = persistenceFactory.getPersistence(Person.class);
 
@@ -30,7 +30,7 @@ public class PersistenceTest {
 
 		AbstractPersistence<Person> persistence = persistenceFactory.getPersistence(Person.class);
 
-		String column = PersonPropertyChangeEnum.NAME.getValue();
+		String column = PersonPropertyChangeEnum.name.name();
 
 		List<Person> person = persistence.getByColumn(column, name);
 
@@ -44,8 +44,7 @@ public class PersistenceTest {
 		Phone phone = new Phone();
 		phone.setPerson(person);
 		phone.setType("Home");
-		phone.setDdi(19);
-		phone.setNumber(12344321);
+		phone.setNumber("+55 11 1234-1234");
 
 		AbstractPersistence<Phone> persistence = persistenceFactory.getPersistence(Phone.class);
 

@@ -7,7 +7,7 @@ public class PersonTest {
 	public static void main(String[] args) {
 
 		System.out.println("valueOf(\"ID\"): " + PersonPropertyChangeEnum.valueOf("ID"));
-		PersonPropertyChangeEnum[] personColumns = PersonPropertyChangeEnum.CNPJ.values();
+		PersonPropertyChangeEnum[] personColumns = PersonPropertyChangeEnum.values();
 		for (PersonPropertyChangeEnum personColumn : personColumns) {
 			System.out.println(personColumn);
 		}

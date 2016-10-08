@@ -21,7 +21,7 @@ public abstract class AbstractPersistence<T> {
 		this.entityManager = entityManager;
 	}
 
-	public void persistMerge(T entity) {
+	public void persistOrMerge(T entity) {
 
 		// TODO verify if the column entity @Id is null to deicide what method to execute, persist or merge.
 		System.out.println("The method AbstractPersistence<T>.persistMerge is not implemented yet!");
