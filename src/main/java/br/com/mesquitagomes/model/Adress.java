@@ -32,8 +32,8 @@ public class Adress extends AbstractModel implements Serializable {
 	@Column(name = "adress", length = 200)
 	private String adress;
 	@Basic
-	@Column(name = "number")
-	private Integer number;
+	@Column(name = "number", length = 20)
+	private String number;
 	@Basic
 	@Column(name = "complement", length = 100)
 	private String complement;
@@ -117,14 +117,14 @@ public class Adress extends AbstractModel implements Serializable {
 		firePropertyChange(AdressPropertyChangeEnum.adress.name(), oldValue, this.adress);
 	}
 
-	public Integer getNumber() {
+	public String getNumber() {
 
 		return number;
 	}
 
-	public void setNumber(Integer number) {
+	public void setNumber(String number) {
 
-		Integer oldValue = this.number;
+		String oldValue = this.number;
 		this.number = number;
 		firePropertyChange(AdressPropertyChangeEnum.number.name(), oldValue, this.number);
 	}

@@ -1,5 +1,6 @@
 package main.java.br.com.mesquitagomes.view;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -20,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.NumberFormatter;
 
+import org.eclipse.wb.swing.FocusTraversalOnArray;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -63,6 +65,14 @@ public class OrderJPanel extends JPanel {
 	private JTextField productsTotalTextField;
 	private JFormattedTextField productQuantityFormattedTextField;
 	private JFormattedTextField productUnitPriceFormattedTextField;
+	private JLabel productDescription;
+	private JLabel productQuantityLable;
+	private JLabel productUnitPriceLabel;
+	private JPanel productsButtonPanel;
+	private JButton btnShow;
+	private JButton btnNewProduct;
+	private JButton btnDeleteProduct;
+	private JScrollPane productsScrollPane;
 
 	public OrderJPanel(PersistenceFactory persistenceFactory, Person client) {
 
@@ -220,7 +230,7 @@ public class OrderJPanel extends JPanel {
 		gbl_productsPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		productsPanel.setLayout(gbl_productsPanel);
 		{
-			JLabel productDescription = new JLabel("Description:");
+			productDescription = new JLabel("Description:");
 			GridBagConstraints gbc_productDescription = new GridBagConstraints();
 			gbc_productDescription.anchor = GridBagConstraints.EAST;
 			gbc_productDescription.insets = new Insets(0, 0, 5, 5);
@@ -238,7 +248,7 @@ public class OrderJPanel extends JPanel {
 			productsPanel.add(productDescriptionTextField, gbc_productDescriptionTextField);
 			productDescriptionTextField.setColumns(10);
 
-			JLabel productQuantityLable = new JLabel("Quantity:");
+			productQuantityLable = new JLabel("Quantity:");
 			GridBagConstraints gbc_productQuantityLable = new GridBagConstraints();
 			gbc_productQuantityLable.anchor = GridBagConstraints.EAST;
 			gbc_productQuantityLable.insets = new Insets(0, 0, 5, 5);
@@ -254,7 +264,7 @@ public class OrderJPanel extends JPanel {
 			gbc_productQuantityFormattedTextField.gridy = 1;
 			productsPanel.add(productQuantityFormattedTextField, gbc_productQuantityFormattedTextField);
 
-			JLabel productUnitPriceLabel = new JLabel("Unit Price:");
+			productUnitPriceLabel = new JLabel("Unit Price:");
 			GridBagConstraints gbc_productUnitPriceLabel = new GridBagConstraints();
 			gbc_productUnitPriceLabel.anchor = GridBagConstraints.EAST;
 			gbc_productUnitPriceLabel.insets = new Insets(0, 0, 5, 5);
@@ -271,7 +281,7 @@ public class OrderJPanel extends JPanel {
 			productsPanel.add(productUnitPriceFormattedTextField, gbc_productUnitPriceFormattedTextField);
 			{
 
-				JPanel productsButtonPanel = new JPanel();
+				productsButtonPanel = new JPanel();
 				GridBagConstraints gbc_productsButtonPanel = new GridBagConstraints();
 				gbc_productsButtonPanel.anchor = GridBagConstraints.EAST;
 				gbc_productsButtonPanel.gridwidth = 4;
@@ -282,7 +292,7 @@ public class OrderJPanel extends JPanel {
 				productsPanel.add(productsButtonPanel, gbc_productsButtonPanel);
 				productsButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 				{
-					JButton btnShow = new JButton("Show");
+					btnShow = new JButton("Show");
 					btnShow.addActionListener(new ActionListener() {
 
 						public void actionPerformed(ActionEvent e) {
@@ -295,7 +305,7 @@ public class OrderJPanel extends JPanel {
 					});
 					productsButtonPanel.add(btnShow);
 
-					JButton btnNewProduct = new JButton("New");
+					btnNewProduct = new JButton("New");
 					btnNewProduct.addActionListener(new ActionListener() {
 
 						public void actionPerformed(ActionEvent e) {
@@ -311,7 +321,7 @@ public class OrderJPanel extends JPanel {
 					});
 					productsButtonPanel.add(btnNewProduct);
 
-					JButton btnDeleteProduct = new JButton("Delete");
+					btnDeleteProduct = new JButton("Delete");
 					btnDeleteProduct.addActionListener(new ActionListener() {
 
 						public void actionPerformed(ActionEvent e) {
@@ -322,8 +332,9 @@ public class OrderJPanel extends JPanel {
 						}
 					});
 					productsButtonPanel.add(btnDeleteProduct);
+
 				}
-				JScrollPane productsScrollPane = new JScrollPane();
+				productsScrollPane = new JScrollPane();
 				GridBagConstraints gbc_productsScrollPane = new GridBagConstraints();
 				gbc_productsScrollPane.insets = new Insets(0, 0, 5, 0);
 				gbc_productsScrollPane.gridwidth = 4;
@@ -332,7 +343,7 @@ public class OrderJPanel extends JPanel {
 				gbc_productsScrollPane.gridy = 3;
 				productsPanel.add(productsScrollPane, gbc_productsScrollPane);
 				{
-					productsTable = new JTable();
+					productsTable = new JTable(new CustomDefaultTableModel());
 					productsScrollPane.setViewportView(productsTable);
 				}
 			}
@@ -354,6 +365,10 @@ public class OrderJPanel extends JPanel {
 		gbc_productsTotalTextField.gridy = 4;
 		productsPanel.add(productsTotalTextField, gbc_productsTotalTextField);
 		productsTotalTextField.setColumns(10);
+		productsPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(
+				new Component[] { productDescription, productDescriptionTextField, productQuantityLable, productQuantityFormattedTextField,
+						productUnitPriceLabel, productUnitPriceFormattedTextField, productsButtonPanel, btnShow, btnNewProduct,
+						btnDeleteProduct, productsScrollPane, productsTable, productsTotalLabel, productsTotalTextField }));
 
 		initDataBindings();
 

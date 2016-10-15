@@ -3,11 +3,14 @@ package main.java.br.com.mesquitagomes.view;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.PersistenceException;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -315,7 +318,7 @@ public class PersonJPanel extends JPanel {
 					gbc_phoneScrollPane.gridy = 1;
 					phonesPanel.add(phonesScrollPane, gbc_phoneScrollPane);
 					{
-						phonesTable = new JTable();
+						phonesTable = new JTable(new CustomDefaultTableModel());
 						phonesScrollPane.setViewportView(phonesTable);
 					}
 				}
@@ -392,7 +395,7 @@ public class PersonJPanel extends JPanel {
 					gbc_adressesScrollPane.gridy = 1;
 					adressesPanel.add(adressesScrollPane, gbc_adressesScrollPane);
 					{
-						adressesTable = new JTable();
+						adressesTable = new JTable(new CustomDefaultTableModel());
 						adressesScrollPane.setViewportView(adressesTable);
 					}
 				}
@@ -412,10 +415,17 @@ public class PersonJPanel extends JPanel {
 
 						public void actionPerformed(ActionEvent e) {
 
-							if (person.getId() == null) personPersistence.persist(person);
-							else person = personPersistence.merge(person);
-							JOptionPane.showMessageDialog(getParent(), "Person saved.\n" + person);
-							setPerson(person);
+							try {
+								if (person.getId() == null) personPersistence.persist(person);
+								else person = personPersistence.merge(person);
+								JOptionPane.showMessageDialog(getParent(), "Person saved.\n" + person, "Save Person",
+										JOptionPane.INFORMATION_MESSAGE);
+								setPerson(person);
+								personFindButton.doClick();
+							} catch (HeadlessException | PersistenceException e1) {
+								JOptionPane.showMessageDialog(getParent(), "Error trying to save person.\n" + person, "Save Person",
+										JOptionPane.ERROR_MESSAGE);
+							}
 						}
 					});
 					personButtonPanel.add(personSaveButton);
@@ -458,7 +468,9 @@ public class PersonJPanel extends JPanel {
 
 					public void actionPerformed(ActionEvent e) {
 
-						List<Person> newPpersons;
+						List<Person> newPpersons = new ArrayList<>();
+						persons.setPersons(newPpersons);
+						personsTable.repaint();
 						String value = findTextField.getText();
 						try {
 							int val = Integer.valueOf(value);
@@ -526,7 +538,7 @@ public class PersonJPanel extends JPanel {
 				gbc_personsScrollPane.gridy = 1;
 				personsPanel.add(personsScrollPane, gbc_personsScrollPane);
 				{
-					personsTable = new JTable();
+					personsTable = new JTable(new CustomDefaultTableModel());
 					personsScrollPane.setViewportView(personsTable);
 				}
 			}
@@ -632,7 +644,7 @@ public class PersonJPanel extends JPanel {
 		BeanProperty<Adress, String> adressBeanProperty = BeanProperty.create("adress");
 		jTableBinding.addColumnBinding(adressBeanProperty).setColumnName("Adress");
 		//
-		BeanProperty<Adress, Integer> adressBeanProperty_1 = BeanProperty.create("number");
+		BeanProperty<Adress, String> adressBeanProperty_1 = BeanProperty.create("number");
 		jTableBinding.addColumnBinding(adressBeanProperty_1).setColumnName("Number");
 		//
 		BeanProperty<Adress, String> adressBeanProperty_2 = BeanProperty.create("complement");

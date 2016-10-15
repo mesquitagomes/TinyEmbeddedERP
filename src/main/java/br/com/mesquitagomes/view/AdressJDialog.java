@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.NumberFormatter;
 
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -111,7 +110,7 @@ public class AdressJDialog extends JDialog {
 			contentPanel.add(numberLabel, gbc_numberLabel);
 		}
 		{
-			numberFormattedTextField = new JFormattedTextField(new NumberFormatter());
+			numberFormattedTextField = new JFormattedTextField();
 			GridBagConstraints gbc_numberFormattedTextField = new GridBagConstraints();
 			gbc_numberFormattedTextField.insets = new Insets(0, 0, 5, 5);
 			gbc_numberFormattedTextField.fill = GridBagConstraints.HORIZONTAL;
@@ -272,9 +271,9 @@ public class AdressJDialog extends JDialog {
 				adressBeanProperty_1, adressJTextField, jTextFieldBeanProperty);
 		autoBinding_1.bind();
 		//
-		BeanProperty<Adress, Integer> adressBeanProperty_2 = BeanProperty.create("number");
+		BeanProperty<Adress, String> adressBeanProperty_2 = BeanProperty.create("number");
 		BeanProperty<JFormattedTextField, String> jFormattedTextFieldBeanProperty_1 = BeanProperty.create("text");
-		AutoBinding<Adress, Integer, JFormattedTextField, String> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
+		AutoBinding<Adress, String, JFormattedTextField, String> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE,
 				adress, adressBeanProperty_2, numberFormattedTextField, jFormattedTextFieldBeanProperty_1);
 		autoBinding_2.bind();
 		//

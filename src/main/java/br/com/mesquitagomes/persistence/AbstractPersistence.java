@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
 
 /**
  * TODO make a unique and generic class for persistence.
@@ -21,13 +22,13 @@ public abstract class AbstractPersistence<T> {
 		this.entityManager = entityManager;
 	}
 
-	public void persistOrMerge(T entity) {
+	public void persistOrMerge(T entity) throws PersistenceException {
 
 		// TODO verify if the column entity @Id is null to deicide what method to execute, persist or merge.
 		System.out.println("The method AbstractPersistence<T>.persistMerge is not implemented yet!");
 	}
 
-	public void persist(T entity) {
+	public void persist(T entity) throws PersistenceException {
 
 		EntityTransaction transaction = null;
 
@@ -37,12 +38,14 @@ public abstract class AbstractPersistence<T> {
 			entityManager.persist(entity);
 			transaction.commit();
 		} catch (Exception e) {
-			System.err.println("Erro ao inserir o objeto: \n" + entity + ".\n" + e);
+			String message = "Erro ao inserir o objeto: \n" + entity + ".\n" + e;
+			System.err.println(message);
 			if (transaction != null) transaction.rollback();
+			throw new PersistenceException(message);
 		}
 	}
 
-	public T merge(T entity) {
+	public T merge(T entity) throws PersistenceException {
 
 		EntityTransaction transaction = null;
 
@@ -53,13 +56,14 @@ public abstract class AbstractPersistence<T> {
 			transaction.commit();
 			return newEntity;
 		} catch (Exception e) {
-			System.err.println("Erro ao atualizar o objeto: \n" + entity + ".\n" + e);
+			String message = "Erro ao atualizar o objeto: \n" + entity + ".\n" + e;
+			System.err.println(message);
 			if (transaction != null) transaction.rollback();
+			throw new PersistenceException(message);
 		}
-		return entity;
 	}
 
-	public void remove(T entity) {
+	public void remove(T entity) throws PersistenceException {
 
 		EntityTransaction transaction = null;
 
@@ -69,8 +73,10 @@ public abstract class AbstractPersistence<T> {
 			entityManager.remove(entity);
 			transaction.commit();
 		} catch (Exception e) {
-			System.err.println("Erro ao atualizar o objeto: \n" + entity + ".\n" + e.getMessage() + "\n\n" + e.getStackTrace());
+			String message = "Erro ao atualizar o objeto: \n" + entity + ".\n" + e.getMessage() + "\n\n" + e.getStackTrace();
+			System.err.println(message);
 			if (transaction != null) transaction.rollback();
+			throw new PersistenceException(message);
 		}
 	}
 
